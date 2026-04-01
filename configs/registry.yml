@@ -1,0 +1,19 @@
+# =============================================================================
+# registry.yml — Maps strategy names to Python builders and execution steps.
+# COMP0051 Algorithmic Trading Coursework
+#
+# String names are resolved to actual callables at runtime by config_loader.py.
+# Edit ONLY when adding a genuinely new strategy to strategies.py or
+# a new execution method to execution.py.
+#
+# Analogous to the legacy registry.yml — same pattern, different keys:
+#   builder + training_step  →  signal_builder + execution_step
+# =============================================================================
+
+pairs_cointegration:
+  signal_builder: build_pairs_signal
+  execution_step: mvo_execution
+
+trend_following:
+  signal_builder: build_trend_signal
+  execution_step: mvo_execution

@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+env/
+venv/
+.venv/
+
+# macOS
+.DS_Store
+
+# Data (IMPORTANT for coursework)
+data/
+*.csv
+*.parquet
+
+# Logs / outputs
+*.log
+outputs/
+results/
+
+# Zip files
+*.zip
+
+# IDE
+.vscode/
+.idea/
+
+# Config secrets
+.env

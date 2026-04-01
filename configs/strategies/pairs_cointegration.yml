@@ -1,0 +1,79 @@
+# =============================================================================
+# configs/strategies/pairs_cointegration.yml
+# COMP0051 Algorithmic Trading Coursework
+#
+# Strategy 1: Cointegration-based pairs trading on BTC/ETH.
+#
+# Structure mirrors legacy model YMLs exactly:
+#   params      — working defaults (used when search has not run)
+#   best_config — written by search.py after parameter search (do not edit)
+#   search_space — parameter ranges for staged_search_strategy()
+#
+# Parameter justifications (for the report):
+#   coint_window=720  : 30 days. BTC/ETH cointegration is regime-dependent;
+#                       windows shorter than a week produce noisy p-values.
+#   hedge_window=720  : Same horizon for OLS β estimation. Matching coint_window
+#                       ensures hedge ratio and test use consistent data.
+#   zscore_window=168 : 7 days. Shortest window producing stable spread stats
+#                       at hourly frequency (justified by ACF of spread).
+#   entry_z=1.5       : Gatev-Goetzmann-Rouwenhorst (1999) threshold —
+#                       standard academic pairs trading benchmark.
+#   exit_z=0.5        : GGR (1999) exit — close when spread has substantially
+#                       reverted (within 0.5 std of mean).
+#   stop_z=3.0        : Prevents runaway spread losses when pair decointegrates.
+#                       3σ is a standard stop-loss threshold in the literature.
+#   solver=cvxopt_qp  : Exact same library as Notebook 14 (Markowitz.ipynb).
+#   vol_target=0.02   : 2% per-bar portfolio vol target — scales positions to
+#                       consistent risk across different market regimes.
+#   mvo_lookback=168  : 7-day rolling covariance estimation window.
+# =============================================================================
+
+strategy_name: pairs_cointegration
+
+# ---------------------------------------------------------------------------
+# PARAMS — defaults used when search has not run or search is disabled.
+# If search has run, best_config values are merged into this section by
+# write_best_config() so run.py reads a single consistent source of truth.
+# ---------------------------------------------------------------------------
+params:
+  # --- Cointegration test ---
+  coint_window:  720          # rolling Engle-Granger window (bars)
+
+  # --- Hedge ratio (OLS) ---
+  hedge_window:  720          # OLS regression window for β estimation (bars)
+
+  # --- Spread z-score ---
+  zscore_window: 168          # rolling mean/std window for z-score (bars)
+  entry_z:       1.5          # |z| > entry_z → open position
+  exit_z:        0.5          # |z| < exit_z  → close position
+  stop_z:        3.0          # |z| > stop_z  → stop loss, force close
+
+  # --- MVO position sizing ---
+  solver:        cvxopt_qp    # solver backend (cvxopt_qp | scipy_slsqp | equal_weight)
+  gross_cap:     100000       # max Σ|θ_i| in USDT — brief's hard constraint
+  vol_target:    0.02         # target per-bar portfolio volatility
+  mvo_lookback:  168          # rolling covariance estimation window (bars)
+  regularisation: 0.0001      # ridge regularisation on Σ for numerical stability
+
+  # --- Capital (injected by run.py from experiment.yml capital block) ---
+  # initial_capital and slippage are injected at runtime; do not set here.
+
+# ---------------------------------------------------------------------------
+# BEST CONFIG — written by search.py after hyperparameter search.
+# Empty until search has run. Do not edit manually.
+# ---------------------------------------------------------------------------
+best_config: {}
+
+# ---------------------------------------------------------------------------
+# SEARCH SPACE
+# Format: param: [low, high, mode]   where mode is uniform or log
+# These params override the defaults above during staged_search_strategy().
+# ---------------------------------------------------------------------------
+search_space:
+  coint_window:  [480,  1440, uniform]   # 20–60 days
+  zscore_window: [72,   336,  uniform]   # 3–14 days
+  entry_z:       [1.0,  2.5,  uniform]
+  exit_z:        [0.1,  0.8,  uniform]
+  stop_z:        [2.5,  4.0,  uniform]
+  mvo_lookback:  [72,   336,  uniform]
+  vol_target:    [0.01, 0.05, uniform]
