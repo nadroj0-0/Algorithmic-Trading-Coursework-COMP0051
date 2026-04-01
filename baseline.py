@@ -61,11 +61,32 @@ def main():
     print("=" * 60 + "\n")
 
     # --- Load data ---
+    # Read date/timeframe settings from experiment config if available,
+    # falling back to defaults. This keeps baseline consistent with run.py.
+    timeframe = "1h"
+    since     = "2024-01-01"
+    until     = "2024-12-31"
+
+    # Try to read from experiment.yml for consistency
+    try:
+        from utils.config_loader import load_experiment
+        exp_cfg   = load_experiment(EXPERIMENT_PATH)
+        data_cfg  = exp_cfg.get("data", {})
+        timeframe = data_cfg.get("timeframe", timeframe)
+        since     = data_cfg.get("since",     since)
+        until     = data_cfg.get("until",     until)
+        SYMBOLS_use = data_cfg.get("symbols", SYMBOLS)
+    except Exception:
+        SYMBOLS_use = SYMBOLS
+
     print("[baseline] Loading data...")
     data = load_returns(
-        symbols   = SYMBOLS,
+        symbols   = SYMBOLS_use,
         data_dir  = data_dir,
         rf_annual = RF_ANNUAL,
+        timeframe = timeframe,
+        since     = since,
+        until     = until,
     )
 
     # --- Compute buy-and-hold returns and metrics ---

@@ -197,6 +197,36 @@ def clean_all(
         cleaned[symbol] = df_clean
     return cleaned
 
+def fetch_risk_free_rate(
+    index: pd.DatetimeIndex,
+    annual_default: float = 0.053,
+) -> pd.Series:
+    """
+    Fetch Fed Funds rate from FRED and align to index.
+    Falls back to constant rate if download fails.
+    """
+    try:
+        import pandas_datareader.data as web
+
+        start = index.min().date()
+        end   = index.max().date()
+
+        rf = web.DataReader("FEDFUNDS", "fred", start, end)
+        rf = rf.ffill() / 100.0  # convert % → decimal
+
+        # convert annual → hourly
+        rf_hourly = (1 + rf) ** (1 / 8760) - 1
+
+        # align to our index
+        rf_hourly = rf_hourly.reindex(index, method="ffill")
+
+        print("[rf] Loaded Fed Funds rate from FRED")
+        return rf_hourly.iloc[:, 0]
+
+    except Exception as e:
+        print(f"[rf] FRED fetch failed ({e}), using constant rf={annual_default}")
+        rf_hourly = (1 + annual_default) ** (1 / 8760) - 1
+        return pd.Series(rf_hourly, index=index)
 
 # =============================================================================
 # 3. RETURNS
@@ -229,18 +259,27 @@ def compute_returns(
             ret_excess : simple excess return (net of rf)
             log_ret    : log return (for statistical tests / ACF)
     """
-    rf_hourly = (1 + rf_annual) ** (1 / 8_760) - 1
-    print(f"[returns] rf_annual={rf_annual:.3f} → rf_hourly={rf_hourly:.2e} (effectively zero at this frequency)")
-
+    # rf_hourly = (1 + rf_annual) ** (1 / 8_760) - 1
+    # print(f"[returns] rf_annual={rf_annual:.3f} → rf_hourly={rf_hourly:.2e} (effectively zero at this frequency)")
+    print(f"[returns] Using time-varying risk-free rate (FRED) with fallback rf_annual={rf_annual:.3f}")
+    common_index = next(iter(cleaned.values())).index
+    rf_series = fetch_risk_free_rate(common_index, rf_annual)
     result = {}
     for symbol, df in cleaned.items():
         df = df.copy()
         df["ret"]        = df["close"].pct_change()
-        df["ret_excess"] = df["ret"] - rf_hourly
+        # df["ret_excess"] = df["ret"] - rf_hourly
+        # rf_series = fetch_risk_free_rate(df.index, rf_annual)
+        df["ret_excess"] = df["ret"] - rf_series
         df["log_ret"]    = np.log(df["close"] / df["close"].shift(1))
         df = df.dropna(subset=["ret"])
         result[symbol]   = df
         print(f"[returns] {symbol}: {len(df):,} return observations")
+        print(
+            f"[data-check] {symbol}: "
+            f"{df.index.min()} → {df.index.max()} | {len(df):,} rows"
+        )
+        print(f"[rf] {symbol}: mean rf ≈ {rf_series.mean():.2e}")
 
     return result
 
@@ -273,6 +312,9 @@ def load_clean(
 
 
 def load_returns(
+    timeframe: str,
+    since:     str,
+    until:     str,
     symbols:   list[str] = SYMBOLS,
     data_dir:  Path      = DATA_DIR,
     rf_annual: float     = 0.053,
@@ -284,7 +326,19 @@ def load_returns(
     Returns:
         dict mapping symbol → DataFrame with ret, ret_excess, log_ret columns
     """
-    cleaned = load_clean(symbols, data_dir)
+    # Step 1: download (if needed)
+    raw = download_all(
+    symbols   = symbols,
+    timeframe = timeframe,
+    since     = since,
+    until     = until,
+    data_dir  = data_dir,
+)
+
+    # Step 2: clean
+    cleaned = clean_all(raw, data_dir)
+
+    # Step 3: compute returns
     return compute_returns(cleaned, rf_annual=rf_annual)
 
 

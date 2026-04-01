@@ -93,14 +93,24 @@ def _load_strategy_results(strategy_dir: Path, strategy_name: str) -> dict | Non
     payload = load_json(results_path)
     raw     = payload.get("results", {})
 
-    # Reconstruct pandas Series from serialised index + values
+    # Reconstruct pandas objects from the serialised format used by save_results:
+    #   Series  : {"index": [...], "values": [...]}
+    #   DataFrame: {"index": [...], "columns": [...], "data": {col: [...]}}
+    #   Scalar  : Python primitive — kept as-is
     reconstructed = {}
     for key, val in raw.items():
         if isinstance(val, dict) and "index" in val and "values" in val:
+            # pd.Series
             reconstructed[key] = pd.Series(
                 val["values"],
-                index=pd.to_datetime(val["index"])
+                index=pd.to_datetime(val["index"]),
             )
+        elif isinstance(val, dict) and "index" in val and "columns" in val and "data" in val:
+            # pd.DataFrame with DatetimeIndex — positions and similar
+            reconstructed[key] = pd.DataFrame(
+                val["data"],
+                index=pd.to_datetime(val["index"]),
+            )[val["columns"]]   # ensure column order matches saved order
         else:
             reconstructed[key] = val
 
@@ -224,7 +234,21 @@ def main():
     data_dir = Path(data_cfg.get("data_dir", "./data"))
     rf_annual = float(data_cfg.get("rf_annual", 0.053))
 
-    raw_data = load_returns(symbols=symbols, data_dir=data_dir, rf_annual=rf_annual)
+    # Read timeframe/since/until from experiment config — required positional
+    # args in data.py load_returns(). Omitting them silently used module-level
+    # defaults and ignored whatever was in experiment.yml.
+    timeframe = data_cfg.get("timeframe", "1h")
+    since     = data_cfg.get("since",     "2024-01-01")
+    until     = data_cfg.get("until",     "2024-12-31")
+
+    raw_data = load_returns(
+        symbols   = symbols,
+        data_dir  = data_dir,
+        rf_annual = rf_annual,
+        timeframe = timeframe,
+        since     = since,
+        until     = until,
+    )
     prices   = get_close_matrix(raw_data, col="close")
     returns  = get_returns_matrix(raw_data, col="ret_excess")
     common_idx = prices.index.intersection(returns.index)

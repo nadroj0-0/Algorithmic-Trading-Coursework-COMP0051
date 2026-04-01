@@ -50,6 +50,8 @@ params:
   vol_target:    0.02        # target per-bar portfolio volatility
   mvo_lookback:  168         # rolling covariance estimation window (bars)
   regularisation: 0.0001     # ridge regularisation on Σ
+  risk_aversion:  1.0        # λ — MVO return/risk trade-off (0 = min-variance only)
+  mu_lookback:    168        # rolling window for expected return μ (bars)
 
   # --- Capital (injected by run.py from experiment.yml) ---
   # initial_capital and slippage injected at runtime.

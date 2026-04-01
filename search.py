@@ -191,8 +191,22 @@ def run_search(exp_cfg: dict, run_dir: Path) -> dict:
     data_dir  = Path(data_cfg.get("data_dir", "./data"))
     rf_annual = float(data_cfg.get("rf_annual", 0.053))
 
+    # Read timeframe/since/until from experiment config — required positional
+    # args in data.py load_returns(). run.py passes these correctly; search.py
+    # was previously omitting them and silently falling back to module defaults.
+    timeframe = data_cfg.get("timeframe", "1h")
+    since     = data_cfg.get("since",     "2024-01-01")
+    until     = data_cfg.get("until",     "2024-12-31")
+
     print(f"\n[search] Loading data once for all strategies...")
-    raw_data = load_returns(symbols=symbols, data_dir=data_dir, rf_annual=rf_annual)
+    raw_data = load_returns(
+        symbols   = symbols,
+        data_dir  = data_dir,
+        rf_annual = rf_annual,
+        timeframe = timeframe,
+        since     = since,
+        until     = until,
+    )
     prices   = get_close_matrix(raw_data, col="close")
     returns  = get_returns_matrix(raw_data, col="ret_excess")
 

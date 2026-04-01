@@ -151,11 +151,25 @@ class PnLEngine:
         cash           = (self.initial_capital - gross_exposure).clip(lower=0)
 
         # --- Per-bar returns (for Sharpe/Sortino/Calmar) ---
-        # We use the net PnL as a return on initial_capital for comparability.
-        # Dividing by initial_capital (fixed denominator) keeps the return series
-        # clean and comparable to buy-and-hold benchmarks.
-        ret_gross = pnl_gross_s / self.initial_capital
-        ret_net   = pnl_net_s   / self.initial_capital
+        # Divide each period's PnL by the portfolio value at the START of that
+        # period (i.e. the previous bar's value). This gives the true percentage
+        # return on capital-at-risk each bar, which is what Sharpe ratio requires.
+        #
+        # Using fixed initial_capital as the denominator understates returns as
+        # the portfolio compounds gains, producing a Sharpe that drifts lower
+        # than the true risk-adjusted return.
+        #
+        # We use .shift(1) to get the previous bar's value, and fill the first
+        # bar with initial_capital (no previous bar exists).
+        prev_value_gross = value_gross.shift(1).fillna(self.initial_capital)
+        prev_value_net   = value_net.shift(1).fillna(self.initial_capital)
+
+        # Guard against zero denominator (degenerate edge case)
+        prev_value_gross = prev_value_gross.replace(0, self.initial_capital)
+        prev_value_net   = prev_value_net.replace(0, self.initial_capital)
+
+        ret_gross = pnl_gross_s / prev_value_gross
+        ret_net   = pnl_net_s   / prev_value_net
 
         # --- Turnover (average over all assets) ---
         avg_turn = 0.0

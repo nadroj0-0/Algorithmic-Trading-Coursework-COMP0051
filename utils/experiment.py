@@ -190,8 +190,21 @@ class Experiment:
             strategy_dir = self.strategy_dir,
         )
 
+        # print(f"\n  [DONE] {self.name} — artifacts in {self.strategy_dir}")
+        # if "pnl_net" in self.results and self.results["pnl_net"] is not None:
+        #     total_net = self.results.get("total_pnl_net", 0)
+        #     pct       = self.results.get("pct_return_net", 0)
+        #     print(f"  Total PnL (net): ${total_net:,.2f} ({pct * 100:.2f}%)")
+
         print(f"\n  [DONE] {self.name} — artifacts in {self.strategy_dir}")
-        if "pnl_net" in self.results and self.results["pnl_net"] is not None:
-            total_net = self.results.get("total_pnl_net", 0)
-            pct       = self.results.get("pct_return_net", 0)
+
+        # handle both structures safely
+        inner = self.results.get("results") if "results" in self.results else self.results
+
+        bar_metrics = inner.get("bar_metrics", [])
+        if bar_metrics:
+            total_net = float(bar_metrics[-1].get("total_pnl_net", 0.0))
+            pct = total_net / capital
             print(f"  Total PnL (net): ${total_net:,.2f} ({pct * 100:.2f}%)")
+        else:
+            print("  [WARN] No bar_metrics found in results")

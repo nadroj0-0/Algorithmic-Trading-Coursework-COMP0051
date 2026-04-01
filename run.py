@@ -83,15 +83,21 @@ def _load_data(exp_cfg: dict) -> tuple[dict, dict]:
     symbols  = data_cfg.get("symbols", ["BTC/USDT", "ETH/USDT", "SOL/USDT"])
     data_dir = Path(data_cfg.get("data_dir", "./data"))
     rf_annual = float(data_cfg.get("rf_annual", 0.053))
+    timeframe = data_cfg.get("timeframe", "1h")
+    since = data_cfg.get("since", "2024-01-01")
+    until = data_cfg.get("until", "2024-12-31")
 
     print("\n[run] Loading data once for all strategies...")
     print(f"[run] Symbols   : {symbols}")
     print(f"[run] rf_annual : {rf_annual}")
 
     data = load_returns(
-        symbols   = symbols,
-        data_dir  = data_dir,
-        rf_annual = rf_annual,
+        symbols=symbols,
+        data_dir=data_dir,
+        rf_annual=rf_annual,
+        timeframe=timeframe,
+        since=since,
+        until=until,
     )
 
     prices  = get_close_matrix(data, col="close")

@@ -71,21 +71,35 @@ def save_results(
     strategy_dir.mkdir(parents=True, exist_ok=True)
     results_path = strategy_dir / f"{name}_{stage}_results.json"
 
-    # Convert Series to list for JSON serialisation
+    # Convert Series and DataFrames for JSON serialisation
     serialisable = {}
     for k, v in results.items():
         if isinstance(v, pd.Series):
-            serialisable[k] = {"index": list(v.index.astype(str)), "values": list(v.values)}
+            # Series: preserve index as ISO strings for faithful reconstruction
+            serialisable[k] = {
+                "index":  list(v.index.astype(str)),
+                "values": list(v.values),
+            }
         elif isinstance(v, pd.DataFrame):
-            serialisable[k] = v.to_dict(orient="list")
+            # DataFrame: preserve DatetimeIndex AND column data so evaluate.py
+            # can reconstruct a proper DataFrame with .columns and .index intact.
+            # Previously used df.to_dict(orient="list") which dropped the index,
+            # causing a crash in evaluate.py when calling positions_df.columns.
+            serialisable[k] = {
+                "index":   list(v.index.astype(str)),
+                "columns": list(v.columns),
+                "data":    {col: list(v[col].values) for col in v.columns},
+            }
         elif isinstance(v, np.floating):
             serialisable[k] = float(v)
         elif isinstance(v, np.integer):
             serialisable[k] = int(v)
         elif isinstance(v, dict):
-            # Nested dict (e.g. holding_hrs) — flatten values
-            serialisable[k] = {kk: float(vv) if isinstance(vv, (np.floating, float)) else vv
-                               for kk, vv in v.items()}
+            # Nested dict (e.g. holding_hrs) — flatten values to Python scalars
+            serialisable[k] = {
+                kk: float(vv) if isinstance(vv, (np.floating, float)) else vv
+                for kk, vv in v.items()
+            }
         else:
             serialisable[k] = v
 
@@ -134,11 +148,16 @@ def compute_slippage(data: dict[str, pd.DataFrame]) -> dict[str, float]:
         dict mapping symbol → slippage as a decimal (e.g. 0.001 = 0.1%).
     """
     slippages = {}
-    print("\n[slippage] Roll model estimates:")
+    print("\n[slippage] Roll model estimates (one-way cost = round-trip / 2):")
     for symbol, df in data.items():
-        s = roll_spread_pct(df["close"])
-        slippages[symbol] = s
-        print(f"  {symbol}: {s:.6f} ({s * 100:.4f}%)")
+        # roll_spread_pct() returns the round-trip cost (see its docstring).
+        # PnLEngine's Cost_t formula applies slippage per trade leg (one-way),
+        # so we divide by 2. Previously the full round-trip was used, which
+        # charged twice the correct amount per trade.
+        round_trip = roll_spread_pct(df["close"])
+        one_way    = round_trip / 2.0
+        slippages[symbol] = one_way
+        print(f"  {symbol}: round-trip={round_trip:.6f}  one-way={one_way:.6f} ({one_way * 100:.4f}%)")
 
     # Use the maximum slippage across all assets for a conservative estimate
     # applied uniformly — this simplification is stated in the report.
