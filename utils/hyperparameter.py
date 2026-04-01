@@ -5,23 +5,22 @@
 #
 # Preserved verbatim (domain-agnostic):
 #   Leaderboard, sample_uniform, sample_log_uniform, sample_parameter,
-#   set_nested, sample_config, select_best
+#   set_nested, sample_config
 #
-# Changed:
-#   staged_search() → staged_search_strategy()
-#   Objective: min(validation_loss) → max(validation_sharpe)
-#   Sessions: TrainingSession → StrategySession
-#   Schedule: epochs+keep → bars+keep
+# Walk-forward design (V6):
+#   3-window cross-validation per config at each pruning stage.
+#   For each config, 3 sessions are maintained in parallel, each trained
+#   on a different prefix of the training data and validated on the
+#   immediately following non-overlapping window.
 #
-# Walk-forward validation (fixed vs V2):
-#   For each pruning stage, EVERY candidate is evaluated on a held-out
-#   mini-validation window (stage_end → train_end) using a FRESH SESSION
-#   that has NOT been trained on those bars. Pruning is then based on this
-#   genuine out-of-sample Sharpe, not on training-window metrics.
-#   Final winner is selected on the global val window (train_end → end).
+#   _window_bounds(stage_end, w, W):
+#       w=1: trains [0, stage_end-W),   val=[stage_end-W, stage_end)
+#       w=2: trains [0, stage_end-2W),  val=[stage_end-2W, stage_end-W)
+#       w=3: trains [0, stage_end-3W),  val=[stage_end-3W, stage_end-2W)
+#   Average val Sharpe across all 3 windows is used for pruning.
 #
-# This matches the reference codebase pattern exactly:
-#   train each stage → validate on held-out data → prune on val metric
+#   Final selection uses the global held-out window [train_end, end)
+#   — the 30% that was never touched during any stage.
 # =============================================================================
 
 import copy
@@ -32,7 +31,7 @@ from pathlib import Path
 
 import numpy as np
 
-from utils.common           import save_json, run_strategy
+from utils.common           import save_json
 from utils.strategy_session import StrategySession
 from utils.execution        import build_mvo_executor
 from utils.portfolio        import PnLEngine
@@ -40,17 +39,14 @@ from utils.metrics          import sharpe, HOURS_PER_YEAR
 
 
 # =============================================================================
-# LEADERBOARD — kept verbatim with mode and val_start parameters
+# LEADERBOARD
 # =============================================================================
 
 class Leaderboard:
     """
-    Simple leaderboard ranking search candidates by validation Sharpe.
-
-    mode='max_sharpe': higher Sharpe = better (default for trading).
-    val_start: bar index where the held-out validation window begins.
-    Candidates are ranked on get_val_sharpe(val_start) — the Sharpe on
-    bars they have NOT been trained on.
+    Ranks search candidates by validation Sharpe (higher = better).
+    Internally stores negative Sharpe so sort ascending = best first.
+    val_start: bar index from which get_val_sharpe() is scored.
     """
 
     def __init__(self, sessions: list, mode: str = "max_sharpe", val_start: int = 0):
@@ -61,25 +57,71 @@ class Leaderboard:
             loss = self._score(session)
             self.entries.append({"config": cfg, "session": session, "loss": loss})
 
-    def _score(self, session: StrategySession) -> float:
-        """Lower is better (negate Sharpe so sort ascending = best first)."""
+    def _score(self, session) -> float:
         if self.mode == "max_sharpe":
             s = session.get_val_sharpe(self.val_start)
             return -s if not np.isnan(s) else np.inf
-        metrics = session.results.get("bar_metrics", [])
+        metrics = session.results.get("bar_metrics", []) if hasattr(session, "results") else []
         if not metrics:
             return np.inf
         return -min(m.get("sharpe_net", -np.inf) for m in metrics)
 
-    def add(self, cfg: dict, session: StrategySession) -> None:
-        loss = self._score(session)
-        self.entries.append({"config": cfg, "session": session, "loss": loss})
+    def add(self, cfg: dict, session) -> None:
+        self.entries.append({"config": cfg, "session": session, "loss": self._score(session)})
 
     def ranked(self) -> list:
         return sorted(self.entries, key=lambda x: x["loss"])
 
     def top(self, k: int) -> list:
         return self.ranked()[:k]
+
+
+# =============================================================================
+# GROUP SESSION — wraps 3 per-window sessions for one config
+# =============================================================================
+
+class GroupSession:
+    """
+    Wraps the three per-window training sessions for one config so that
+    Leaderboard can rank it via get_val_sharpe().
+
+    get_val_sharpe() calls _score_on_window() for each window session
+    and returns the mean val Sharpe. This makes pruning based on the
+    average held-out performance across 3 non-overlapping windows.
+    """
+
+    def __init__(
+        self,
+        sessions:    list,
+        stage_end:   int,
+        window_size: int,
+        prices,
+        returns,
+        capital:     float,
+    ):
+        self.sessions    = sessions
+        self.stage_end   = stage_end
+        self.window_size = window_size
+        self.prices      = prices
+        self.returns     = returns
+        self.capital     = capital
+        # Stub so Leaderboard._score can call .results without crashing
+        self.results     = {"bar_metrics": []}
+
+    def get_val_sharpe(self, val_start: int = 0) -> float:
+        scores = []
+        for s in self.sessions:
+            score = _score_on_window(
+                session     = s,
+                stage_end   = self.stage_end,
+                window_size = self.window_size,
+                prices      = self.prices,
+                returns     = self.returns,
+                capital     = self.capital,
+            )
+            if score is not None and not np.isnan(score):
+                scores.append(score)
+        return float(np.mean(scores)) if scores else np.nan
 
 
 # =============================================================================
@@ -122,171 +164,235 @@ def sample_config(base_config: dict, search_space: dict) -> dict:
 
 
 # =============================================================================
-# VALIDATION HELPER — run a FRESH session on a window without contaminating
-# the training session state
+# WINDOW HELPERS
+# =============================================================================
+
+def _window_bounds(stage_end: int, window_id: int, window_size: int) -> tuple:
+    """
+    Compute [val_start, val_end) for window window_id.
+
+    Window layout (stage_end = X, window_size = W):
+        w=1: val = [X-W,   X)
+        w=2: val = [X-2W, X-W)
+        w=3: val = [X-3W, X-2W)
+
+    Each val window is immediately after its session's training window,
+    so it is genuinely out-of-sample for that session.
+    """
+    val_end   = stage_end - (window_id - 1) * window_size
+    val_start = stage_end - window_id * window_size
+    return val_start, val_end
+
+
+def _session_target_end(stage_end: int, window_id: int, window_size: int) -> int:
+    """
+    Training stop bar for window window_id.
+    Session trains [0, val_start) so it has never seen its val window.
+    """
+    val_start, _ = _window_bounds(stage_end, window_id, window_size)
+    return val_start
+
+
+# =============================================================================
+# VALIDATION SCORING — FIXED: fresh session, no training results carried over
 # =============================================================================
 
 def _score_on_window(
-    cfg:       dict,
-    session:   StrategySession,
-    prices:    "pd.DataFrame",
-    returns:   "pd.DataFrame",
-    start_bar: int,
-    end_bar:   int,
-    capital:   float,
-    val_start: int,
+    session:     StrategySession,
+    stage_end:   int,
+    window_size: int,
+    prices,
+    returns,
+    capital:     float,
 ) -> float:
     """
-    Evaluate a candidate on bars [start_bar, end_bar) using a fresh session.
+    Score a training session on its held-out validation window.
 
-    The original training session is NOT modified — this function clones the
-    strategy and executor, creates a new StrategySession starting at start_bar,
-    and runs it forward. The clone's state is fully independent of training.
+    Creates a FRESH eval session (results=None) starting at val_start.
+    The eval session has no knowledge of the training session's PnL —
+    it starts from scratch at val_start. This ensures:
+        - pnl_net in eval_session ONLY contains val-window bars
+        - get_val_sharpe(0) correctly scores those val-window bars
+        - No index mismatch between bar indices and series positions
 
-    This is the key fix for true walk-forward validation during pruning:
-    we score each candidate on bars it has NEVER seen, not on a slice of
-    bars that were already accumulated into session.results.
+    This fixes the critical bug in the submitted version where
+    results=deepcopy(session.results) was passed, causing:
+        concat([train_pnl, val_pnl]) → pnl.iloc[val_start] always empty.
 
-    Args:
-        cfg       : Candidate params dict.
-        session   : The TRAINING session (read-only — not modified).
-        prices    : Full close price DataFrame.
-        returns   : Full excess returns DataFrame.
-        start_bar : First bar of the evaluation window (inclusive).
-        end_bar   : Last bar of the evaluation window (exclusive).
-        capital   : Portfolio capital in USDT.
-        val_start : Bar index relative to which Sharpe is scored.
-                    Typically equal to start_bar for stage mini-val windows.
-
-    Returns:
-        float: Annualised Sharpe on the evaluation window. -inf if too short.
+    The training session is NOT modified.
     """
-    if end_bar <= start_bar:
-        return -np.inf
+    if not hasattr(session, "window_id"):
+        return np.nan
 
-    # Reinstantiate strategy and executor from the same params.
-    # deepcopy of session.strategy preserves any class-level state (e.g.
-    # sticky position variable inside PairsStrategy) without contaminating
-    # the original training session. The executor is rebuilt fresh because
-    # its rolling covariance/mu estimates use bar_abs_idx into the full
-    # returns DataFrame — they already have full history available.
-    strategy_clone  = copy.deepcopy(session.strategy)
-    executor_clone  = build_mvo_executor(cfg)
-    pnl_engine_clone = PnLEngine(
-        initial_capital = capital,
-        slippage        = float(cfg.get("slippage", 0.001)),
+    val_start, val_end = _window_bounds(stage_end, session.window_id, window_size)
+
+    if val_start < 0 or val_end <= val_start:
+        return np.nan
+
+    n_val_bars = val_end - val_start
+    if n_val_bars < 10:
+        return np.nan
+
+    # Create a FRESH eval session — results=None means empty PnL history.
+    # warmup_bars is read from session.params so the strategy's rolling windows
+    # (cointegration test, z-score, EWM) receive sufficient price history.
+    # Without warmup, the first coint_window bars of a val window return NaN
+    # signals, distorting val Sharpe. The warmup prefix contributes no PnL.
+    eval_session = StrategySession(
+        strategy   = copy.deepcopy(session.strategy),
+        executor   = copy.deepcopy(session.executor),
+        pnl_engine = PnLEngine(
+            initial_capital = session.pnl_engine.initial_capital,
+            slippage        = session.pnl_engine.slippage,
+        ),
+        params     = copy.deepcopy(session.params),
+        bar_idx    = val_start,
+        results    = None,    # FRESH — no training PnL carried over
     )
 
-    val_session = StrategySession(
-        strategy   = strategy_clone,
-        executor   = executor_clone,
-        pnl_engine = pnl_engine_clone,
-        params     = cfg,
-        bar_idx    = start_bar,
-    )
-
-    n_bars = end_bar - start_bar
-    val_session.run(
-        n_bars  = n_bars,
+    eval_session.run(
+        n_bars  = n_val_bars,
         prices  = prices,
         returns = returns,
         capital = capital,
     )
 
-    # val_start=0 here because this session only has val-window data
-    return val_session.get_val_sharpe(val_start=0)
+    # Score on position 0 onward (eval_session only has val-window bars)
+    return eval_session.get_val_sharpe(val_start=0)
 
+
+# =============================================================================
+# PRUNE — uses GroupSession for 3-window averaged val Sharpe
+# =============================================================================
 
 def prune(
-    sessions:   list,
-    keep:       int,
-    prices:     "pd.DataFrame",
-    returns:    "pd.DataFrame",
-    stage_end:  int,
-    train_end:  int,
-    capital:    float,
+    sessions:    list,
+    keep:        int,
+    prices,
+    returns,
+    stage_end:   int,
+    train_end:   int,
+    capital:     float,
+    window_size: int = 500,
 ) -> list:
     """
-    Prune candidates to the top-k by scoring each on a HELD-OUT mini-val window.
+    Prune config groups to top-k by 3-window averaged validation Sharpe.
 
-    The mini-val window is bars [stage_end, train_end). Candidates have been
-    trained on bars [0, stage_end). Scoring on [stage_end, train_end) is
-    genuinely out-of-sample relative to this stage.
-
-    This mirrors the reference codebase's validate-then-prune pattern:
-        train on train_loader → evaluate on val_loader → prune on val loss
-
-    Args:
-        sessions  : List of (cfg, session) pairs — training sessions.
-        keep      : Number of survivors.
-        prices    : Full price DataFrame.
-        returns   : Full returns DataFrame.
-        stage_end : Bar index where this stage's training ended.
-        train_end : Bar index where the global train window ends.
-        capital   : Portfolio capital.
-
-    Returns:
-        Pruned list of (cfg, session) pairs, length ≤ keep.
+    Input: [(cfg, [s_w1, s_w2, s_w3]), ...]
+    Each GroupSession averages _score_on_window() across its 3 sessions.
     """
     if keep >= len(sessions):
         return sessions
 
-    # Score each candidate on [stage_end, train_end) — bars it hasn't seen
-    scores = []
-    mini_val_bars = train_end - stage_end
+    grouped = [
+        (cfg, GroupSession(group, stage_end, window_size, prices, returns, capital))
+        for cfg, group in sessions
+    ]
 
-    for cfg, session in sessions:
-        if mini_val_bars > 10:
-            score = _score_on_window(
-                cfg       = cfg,
-                session   = session,
-                prices    = prices,
-                returns   = returns,
-                start_bar = stage_end,
-                end_bar   = train_end,
-                capital   = capital,
-                val_start = 0,
-            )
-        else:
-            # Mini-val window too small — fall back to training Sharpe
-            score = session.best_sharpe
+    leaderboard = Leaderboard(grouped, mode="max_sharpe", val_start=0)
+    best_entries = leaderboard.top(keep)
 
-        scores.append((score, cfg, session))
+    # Match best configs back to their original groups
+    survivors = []
+    for entry in best_entries:
+        target_cfg = entry["config"]
+        for orig_cfg, orig_group in sessions:
+            if orig_cfg is target_cfg:   # identity check, not equality
+                survivors.append((orig_cfg, orig_group))
+                break
 
-    # Sort descending by Sharpe (best first), keep top-k
-    scores.sort(key=lambda x: x[0], reverse=True)
-    survivors = [(cfg, session) for _, cfg, session in scores[:keep]]
+    if not survivors:
+        # Fallback: identity check failed (shouldn't happen), use equality
+        for entry in best_entries:
+            target_cfg = entry["config"]
+            for orig_cfg, orig_group in sessions:
+                if orig_cfg == target_cfg:
+                    survivors.append((orig_cfg, orig_group))
+                    break
+
+    best_score  = -best_entries[0]["loss"]  if best_entries else np.nan
+    worst_kept  = -best_entries[-1]["loss"] if best_entries else np.nan
     print(f"[search] Pruned {len(sessions)} → {len(survivors)} "
-          f"(stage mini-val Sharpe: best={scores[0][0]:.3f}, "
-          f"worst_kept={scores[keep-1][0]:.3f})")
+          f"(3-window avg Sharpe: best={best_score:.3f}, worst_kept={worst_kept:.3f})")
     return survivors
 
 
-def select_best(sessions: list, val_start: int = 0) -> tuple:
+# =============================================================================
+# SELECT BEST — uses global val window [train_end, end)
+# =============================================================================
+
+def select_best(
+    sessions:    list,
+    val_start:   int,
+    prices,
+    returns,
+    capital:     float,
+    n_bars:      int,
+) -> tuple:
     """
-    Select the single best session by validation-window Sharpe.
-    Uses get_val_sharpe(val_start) — scored on the global held-out window.
+    Select the best surviving config by running each survivor on the global
+    held-out validation window [train_end, end) and scoring val Sharpe.
+
+    This is the final held-out evaluation — these bars were never touched
+    during any training or pruning stage.
+
+    Input: [(cfg, [s_w1, s_w2, s_w3]), ...]
+    Returns: (best_cfg, best_group_list)
     """
     best_score = -np.inf
-    best       = None
-    for cfg, session in sessions:
-        score = session.get_val_sharpe(val_start)
+    best_item  = None
+
+    for cfg, group in sessions:
+        # Use the w=1 session as the representative for the global val run
+        # (it has trained the furthest, so it's the best representative)
+        rep_session = group[0]
+
+        # Run a fresh eval session on [val_start, n_bars)
+        val_bars = n_bars - val_start
+        if val_bars < 10:
+            continue
+
+        eval_session = StrategySession(
+            strategy   = copy.deepcopy(rep_session.strategy),
+            executor   = copy.deepcopy(rep_session.executor),
+            pnl_engine = PnLEngine(
+                initial_capital = rep_session.pnl_engine.initial_capital,
+                slippage        = rep_session.pnl_engine.slippage,
+            ),
+            params     = copy.deepcopy(rep_session.params),
+            bar_idx    = val_start,
+            results    = None,
+        )
+        eval_session.run(
+            n_bars  = val_bars,
+            prices  = prices,
+            returns = returns,
+            capital = capital,
+        )
+        score = eval_session.get_val_sharpe(val_start=0)
         if np.isnan(score):
             score = -np.inf
+
         if score > best_score:
             best_score = score
-            best       = (cfg, session)
-    return best
+            best_item  = (cfg, group)
+
+    if best_item is None:
+        # Fallback: return first survivor
+        best_item = sessions[0]
+
+    print(f"[search] Final winner global val Sharpe: {best_score:.3f}")
+    return best_item
 
 
 # =============================================================================
-# STAGED SEARCH — true walk-forward validation at every pruning stage
+# STAGED SEARCH
 # =============================================================================
 
 def staged_search_strategy(
     search_space:   dict,
-    prices:         "pd.DataFrame",
-    returns:        "pd.DataFrame",
+    prices,
+    returns,
     signal_builder,
     execution_step,
     strategy_dir:   Path,
@@ -298,183 +404,153 @@ def staged_search_strategy(
     search_name:    str   = "param_search",
 ) -> dict:
     """
-    Successive-halving strategy parameter search with true walk-forward validation.
+    Successive-halving with 3-window cross-validation at each pruning stage.
 
-    Data split:
-        Training window:   bars 0 → train_end    (70%)
-        Val window:        bars train_end → end   (30%)
+    Per-stage walk-forward (3 windows of size W, centred on stage_end):
+        w=1: trains [0, stage_end-W),   val=[stage_end-W, stage_end)
+        w=2: trains [0, stage_end-2W),  val=[stage_end-2W, stage_end-W)
+        w=3: trains [0, stage_end-3W),  val=[stage_end-3W, stage_end-2W)
+    Pruning uses mean val Sharpe across all 3 windows.
 
-    Walk-forward schedule (corrected vs V2):
-        For each stage:
-            1. Train each candidate on bars [prev_end, stage_end)
-               (continuing from where the previous stage left off)
-            2. Score each candidate on bars [stage_end, train_end)
-               using a FRESH SESSION — genuinely out-of-sample
-            3. Prune: keep top-k by stage validation Sharpe
-
-        Final selection:
-            1. Run all survivors on bars [train_end, end) — global val window
-            2. Select best by global val Sharpe
-
-    The stage validation window and the global validation window are DIFFERENT:
-        Stage val: score after each pruning round, still within train region
-        Global val: final held-out window, never touched during search
-
-    This matches the reference codebase pattern exactly:
-        train on train_loader → validate on val_loader → prune on val metric
-
-    Args:
-        search_space    : Dict param → (low, high, mode) tuples.
-        prices          : Full close price DataFrame.
-        returns         : Full excess returns DataFrame.
-        signal_builder  : Signal builder callable (from registry).
-        execution_step  : Execution step callable (from registry).
-        strategy_dir    : Directory for saving search JSON.
-        base_params     : Base params to perturb.
-        schedule        : List of {"bars": int, "keep": int} dicts.
-        initial_models  : Number of random configs to sample initially.
-        val_fraction    : Fraction of data held out as global val window.
-        capital         : Portfolio capital in USDT.
-        search_name     : Name for the saved JSON summary file.
-
-    Returns:
-        Dict of best params found.
+    Final selection uses global val window [train_end, end) — never touched
+    during any training or pruning stage.
     """
     n_bars    = len(prices)
     train_end = int(n_bars * (1 - val_fraction))
     val_start = train_end
 
+    n_windows   = 3
+    # window_size must exceed the largest strategy lookback so that
+    # strategy.generate() receives enough price history to form valid signals.
+    # pairs: coint_window=720 + zscore_window=168 → need > 888.
+    # trend: slow_span=48 + vol_window=24 → well within 1000.
+    # 1000 bars = ~42 days of 1h data. With 6132 train bars, this is fine.
+    window_size = 1000
+
     if schedule is None:
         schedule = [
-            {"bars": train_end // 3,                      "keep": math.ceil(initial_models / 2)},
-            {"bars": train_end // 3,                      "keep": math.ceil(initial_models / 4)},
-            {"bars": train_end - 2 * (train_end // 3),   "keep": 1},
+            {"bars": train_end // 3,                    "keep": math.ceil(initial_models / 2)},
+            {"bars": train_end // 3,                    "keep": math.ceil(initial_models / 4)},
+            {"bars": train_end - 2 * (train_end // 3), "keep": 1},
         ]
 
-    print(f"\n[search] Staged search — {initial_models} initial configs")
-    print(f"[search] Train bars: {train_end} | Val bars: {n_bars - train_end}")
-    print(f"[search] Schedule: {schedule}")
-    print(f"[search] Walk-forward: stage pruning on [stage_end, train_end)")
+    print(f"\n[search] Staged search — {initial_models} configs × {n_windows} windows")
+    print(f"[search] Train bars: {train_end} | Global val bars: {n_bars - train_end}")
+    print(f"[search] Window size: {window_size} | Schedule: {schedule}")
 
-    # --- Initialise candidates ---
+    # --- Initialise: 3 sessions per config ---
     sessions    = []
     run_records = {}
 
     for i in range(initial_models):
-        cfg        = sample_config(base_params, search_space)
-        strategy   = signal_builder(cfg)
-        executor   = build_mvo_executor(cfg)
-        pnl_engine = PnLEngine(
-            initial_capital = capital,
-            slippage        = float(cfg.get("slippage", 0.001)),
-        )
-        session    = StrategySession(strategy, executor, pnl_engine, cfg)
-        session.id = f"candidate_{i}"
-        sessions.append((cfg, session))
+        cfg   = sample_config(base_params, search_space)
+        group = []
+        for w in range(1, n_windows + 1):
+            strategy   = signal_builder(cfg)
+            executor   = build_mvo_executor(cfg)
+            pnl_engine = PnLEngine(
+                initial_capital = capital,
+                slippage        = float(cfg.get("slippage", 0.001)),
+            )
+            session           = StrategySession(strategy, executor, pnl_engine, cfg)
+            session.id        = f"candidate_{i}_w{w}"
+            session.window_id = w
+            group.append(session)
+        sessions.append((cfg, group))
 
-    # --- Staged successive halving with true walk-forward validation ---
+    prev_stage_end = 0
+
+    # --- Staged successive halving ---
     for stage_idx, stage in enumerate(schedule):
         bars_this_stage = stage["bars"]
         keep            = stage["keep"]
+        stage_end       = min(prev_stage_end + bars_this_stage, train_end)
 
-        print(f"\n[search] Stage {stage_idx + 1}: training {len(sessions)} "
-              f"candidates for {bars_this_stage} bars")
+        print(f"\n[search] Stage {stage_idx+1}: {len(sessions)} groups → "
+              f"stage_end={stage_end}")
 
-        for cfg, session in sessions:
-            # Train on [session.bar_idx, session.bar_idx + bars_this_stage)
-            n_remaining = train_end - session.bar_idx
-            bars        = min(bars_this_stage, max(n_remaining, 0))
+        # Train each window session to its target endpoint
+        for cfg, group in sessions:
+            for session in group:
+                target_end = _session_target_end(stage_end, session.window_id, window_size)
+                target_end = max(0, min(target_end, train_end))
+                bars       = max(0, target_end - session.bar_idx)
 
-            if bars <= 0:
-                continue
-
-            session.run(
-                n_bars  = bars,
-                prices  = prices,
-                returns = returns,
-                capital = capital,
-            )
-
-            # Record training metrics for JSON summary
-            if session.id not in run_records:
-                run_records[session.id] = {
-                    "id":          session.id,
-                    "config":      cfg.copy(),
-                    "bar_metrics": [],
-                }
-            run_records[session.id]["bar_metrics"] = session.results["bar_metrics"]
-
-        # Compute stage_end = bar index where all training in this stage ended
-        # (use the furthest bar_idx seen across all sessions)
-        stage_end = max(session.bar_idx for _, session in sessions)
-
-        # Prune using HELD-OUT mini-val window [stage_end, train_end)
-        # prune() runs a fresh session on bars candidates have NOT been trained
-        # on — ranking is genuinely out-of-sample at every stage.
-        if keep is not None and keep < len(sessions):
-            # Score each candidate on the mini-val window before pruning,
-            # and record those scores in run_records for the audit trail.
-            mini_val_bars = train_end - stage_end
-            for cfg, session in sessions:
-                if mini_val_bars > 10:
-                    stage_val_sharpe = _score_on_window(
-                        cfg       = cfg,
-                        session   = session,
-                        prices    = prices,
-                        returns   = returns,
-                        start_bar = stage_end,
-                        end_bar   = train_end,
-                        capital   = capital,
-                        val_start = 0,
+                if bars > 0:
+                    session.run(
+                        n_bars  = bars,
+                        prices  = prices,
+                        returns = returns,
+                        capital = capital,
                     )
-                else:
-                    stage_val_sharpe = session.best_sharpe
 
-                if session.id in run_records:
-                    run_records[session.id].setdefault("stage_val_sharpes", []).append({
-                        "stage":        stage_idx + 1,
-                        "stage_end":    stage_end,
-                        "train_end":    train_end,
-                        "val_sharpe":   stage_val_sharpe,
-                    })
+                # Record training metrics
+                sid = session.id
+                if sid not in run_records:
+                    run_records[sid] = {
+                        "id":        sid,
+                        "config":    cfg.copy(),
+                        "window_id": session.window_id,
+                        "bar_metrics": [],
+                        "stage_val_sharpes": [],
+                    }
+                run_records[sid]["bar_metrics"] = session.results["bar_metrics"]
 
+        # Score each session on its val window and record for audit trail
+        for cfg, group in sessions:
+            for session in group:
+                val_sharpe = _score_on_window(
+                    session     = session,
+                    stage_end   = stage_end,
+                    window_size = window_size,
+                    prices      = prices,
+                    returns     = returns,
+                    capital     = capital,
+                )
+                vs, ve = _window_bounds(stage_end, session.window_id, window_size)
+                run_records[session.id]["stage_val_sharpes"].append({
+                    "stage":      stage_idx + 1,
+                    "stage_end":  stage_end,
+                    "val_start":  vs,
+                    "val_end":    ve,
+                    "val_sharpe": val_sharpe,
+                })
+
+        # Prune
+        if keep is not None and keep < len(sessions):
             sessions = prune(
-                sessions  = sessions,
-                keep      = keep,
-                prices    = prices,
-                returns   = returns,
-                stage_end = stage_end,
-                train_end = train_end,
-                capital   = capital,
+                sessions    = sessions,
+                keep        = keep,
+                prices      = prices,
+                returns     = returns,
+                stage_end   = stage_end,
+                train_end   = train_end,
+                capital     = capital,
+                window_size = window_size,
             )
 
-    # --- Run global validation window on all surviving candidates ---
-    # Survivors have been trained only up to train_end; now run [train_end, end)
-    print(f"\n[search] Running global val window ({n_bars - train_end} bars) "
-          f"on {len(sessions)} survivor(s)...")
-    for cfg, session in sessions:
-        val_bars = n_bars - session.bar_idx
-        if val_bars > 0:
-            session.run(
-                n_bars  = val_bars,
-                prices  = prices,
-                returns = returns,
-                capital = capital,
-            )
+        prev_stage_end = stage_end
 
-    # --- Select winner by global val Sharpe ---
-    best_cfg, best_session = select_best(sessions, val_start=val_start)
-    best_sharpe = best_session.get_val_sharpe(val_start)
+    # --- Final selection on global val window [train_end, end) ---
+    best_cfg, best_group = select_best(
+        sessions  = sessions,
+        val_start = val_start,
+        prices    = prices,
+        returns   = returns,
+        capital   = capital,
+        n_bars    = n_bars,
+    )
 
     best_metrics = {
-        "val_sharpe": best_sharpe,
-        "train_bars": train_end,
-        "val_bars":   n_bars - train_end,
+        "global_val_start":  val_start,
+        "global_val_bars":   n_bars - val_start,
+        "window_size":       window_size,
+        "n_windows":         n_windows,
+        "search_type":       "3_window_cross_val_walk_forward",
     }
 
-    # --- Save search summary ---
     search_summary = {
-        "search_type":      "successive_halving_walk_forward",
+        "search_type":      "successive_halving_3window_walk_forward",
         "timestamp":        time.strftime("%Y-%m-%d %H:%M:%S"),
         "initial_models":   initial_models,
         "schedule":         schedule,
@@ -489,7 +565,6 @@ def staged_search_strategy(
     summary_path = strategy_dir / f"{search_name}.json"
     save_json(search_summary, summary_path)
     print(f"\n[search] Summary saved → {summary_path}")
-    print(f"[search] Best global val Sharpe: {best_sharpe:.3f}")
     print(f"[search] Best config: {best_cfg}")
 
     return best_cfg

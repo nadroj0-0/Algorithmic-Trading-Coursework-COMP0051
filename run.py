@@ -43,11 +43,11 @@ REGISTRY_PATH     = PROJECT_DIR / "configs" / "registry.yml"
 STRATEGIES_CFG_DIR = PROJECT_DIR / "configs" / "strategies"
 
 # =============================================================================
-# THE ONLY LINE YOU EDIT — set False before submission
-# True  → calls search.py first, writes best params into run ymls, then runs
-# False → skips search, runs directly using params already in strategy ymls
+# SEARCH — read from experiment.yml, not a hardcoded flag.
+# Set search.enabled: true in configs/experiment.yml to run parameter search.
+# The YAML is the single source of truth for this setting.
 # =============================================================================
-SEARCH = False
+SEARCH = None  # resolved below from experiment.yml after loading
 
 
 # =============================================================================
@@ -126,6 +126,10 @@ def main():
     registry   = load_registry(REGISTRY_PATH)
     run_name   = exp_cfg.get("run_name")
     strategies = exp_cfg.get("strategies", [])
+
+    # Resolve SEARCH from experiment.yml — YAML is the single source of truth.
+    # experiment.yml: search: enabled: true/false
+    SEARCH = bool(exp_cfg.get("search", {}).get("enabled", False))
 
     if not run_name:
         raise ValueError("experiment.yml must have a 'run_name' field.")

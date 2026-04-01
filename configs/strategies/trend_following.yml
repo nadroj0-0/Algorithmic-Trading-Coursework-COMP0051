@@ -53,6 +53,11 @@ params:
   risk_aversion:  1.0        # λ — MVO return/risk trade-off (0 = min-variance only)
   mu_lookback:    168        # rolling window for expected return μ (bars)
 
+  # --- Warmup: bars of price history before each segment passed to generate()
+  # Ensures EWM and vol windows are initialised. slow_span=48 + vol_window=24.
+  # Use 200 to be safe (well above max search_space values for slow_span).
+  warmup_bars:    200
+
   # --- Capital (injected by run.py from experiment.yml) ---
   # initial_capital and slippage injected at runtime.
 

@@ -1,0 +1,70 @@
+# =============================================================================
+# configs/strategies/trend_following.yml
+# COMP0051 Algorithmic Trading Coursework
+#
+# Strategy 2: EWM momentum trend-following across BTC, ETH, SOL.
+#
+# Structure mirrors legacy model YMLs exactly — same three sections.
+#
+# Parameter justifications (for the report):
+#   fast_span=12  : 12-bar (12h) EWM — captures intraday momentum.
+#                   Justified by ACF of hourly returns (Notebook_2_3_AR_Debugged):
+#                   significant positive autocorrelation decays within 12–24 bars
+#                   for BTC/ETH at hourly frequency.
+#   slow_span=48  : 48-bar (2-day) EWM — filters short-term noise.
+#                   fast/slow ratio = 1:4, standard in momentum literature
+#                   (see Firoozye, "Algo Trading Alt — Trend Following.pdf").
+#   vol_window=24 : 24-bar (1-day) realised vol for signal normalisation.
+#                   Short enough to track vol regime changes; long enough
+#                   not to be dominated by single-bar noise.
+#   assets        : All three — BTC, ETH, SOL. SOL included for its strong
+#                   trending behaviour in 2024 ($20→$200), adding signal
+#                   diversity not available in the pairs strategy.
+#   solver=cvxopt_qp : Same library as Notebook 14. MVO allocates proportionally
+#                   more to the asset with the strongest momentum and lowest
+#                   correlation to others — this is better than naive equal-weight.
+#   vol_target=0.02  : Same as pairs strategy for consistent cross-strategy
+#                   comparison in the performance table.
+# =============================================================================
+
+strategy_name: trend_following
+
+# ---------------------------------------------------------------------------
+# PARAMS — defaults used when search has not run or is disabled.
+# ---------------------------------------------------------------------------
+params:
+  # --- Signal construction (Notebook 3.3 EWM crossover) ---
+  fast_span:  12             # fast EWM span in bars (hours)
+  slow_span:  48             # slow EWM span in bars (hours)
+  vol_window: 24             # rolling std window for signal normalisation (bars)
+
+  # --- Assets traded (all three for maximum strategy diversification) ---
+  assets:
+    - BTC/USDT
+    - ETH/USDT
+    - SOL/USDT
+
+  # --- MVO position sizing ---
+  solver:        cvxopt_qp   # solver backend
+  gross_cap:     100000      # max Σ|θ_i| — brief's hard constraint
+  vol_target:    0.02        # target per-bar portfolio volatility
+  mvo_lookback:  168         # rolling covariance estimation window (bars)
+  regularisation: 0.0001     # ridge regularisation on Σ
+
+  # --- Capital (injected by run.py from experiment.yml) ---
+  # initial_capital and slippage injected at runtime.
+
+# ---------------------------------------------------------------------------
+# BEST CONFIG — written by search.py after hyperparameter search.
+# ---------------------------------------------------------------------------
+best_config: {}
+
+# ---------------------------------------------------------------------------
+# SEARCH SPACE
+# ---------------------------------------------------------------------------
+search_space:
+  fast_span:   [6,   24,  uniform]    # 6h – 24h fast EWM
+  slow_span:   [24,  96,  uniform]    # 1d – 4d slow EWM
+  vol_window:  [12,  48,  uniform]    # 0.5d – 2d vol window
+  mvo_lookback: [72, 336, uniform]    # 3d – 14d covariance lookback
+  vol_target:  [0.01, 0.05, uniform]

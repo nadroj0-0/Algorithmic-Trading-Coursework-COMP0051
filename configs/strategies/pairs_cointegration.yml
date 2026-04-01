@@ -56,8 +56,10 @@ params:
   risk_aversion:          1.0       # λ — MVO return/risk trade-off
   mu_lookback:            168       # rolling window for expected return μ
 
-  # --- Capital and slippage (injected by run.py from experiment.yml) ---
-  # initial_capital and slippage are set at runtime — do not edit here.
+  # --- Warmup: bars of price history before each segment passed to generate()
+  # Ensures rolling windows (coint, z-score) have full history.
+  # Must be >= coint_window + zscore_window = 720 + 168 = 888. Use 1000.
+  warmup_bars:            1000
 
 best_config: {}
 

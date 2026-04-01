@@ -59,6 +59,11 @@ class StrategySession:
         self.params     = params
         self.bar_idx    = bar_idx
 
+        # warmup_bars: extra historical bars passed to strategy.generate()
+        # before each segment so rolling windows have sufficient history.
+        # Set from params; defaults to 0 (no warmup = original behaviour).
+        self.warmup_bars = int(params.get("warmup_bars", 0))
+
         # Results dict — analogous to TrainingSession.history
         # Accumulates across multiple run() calls for staged search
         self.results = results or {
@@ -90,41 +95,61 @@ class StrategySession:
         prices:  pd.DataFrame,
         returns: pd.DataFrame,
         capital: float,
+        warmup_bars: int = 0,
     ) -> dict:
         """
         Execute the strategy pipeline for bars [start, end).
 
         This is the single implementation of signal generation →
         position sizing → PnL computation. run() delegates here so
-        there is exactly one code path, eliminating the previous
-        duplication between run() and _run_segment().
+        there is exactly one code path.
+
+        warmup_bars:
+            Number of bars before `start` to include in the price slice
+            passed to strategy.generate(). This gives rolling windows
+            (cointegration test, z-score, EWM) their full history before
+            the trading window begins, preventing the cold-start problem
+            where early bars in a segment have insufficient lookback data.
+
+            Signal rows corresponding to the warmup prefix are discarded
+            before position sizing — only bars [start, end) are traded.
+            No PnL is computed for warmup bars; there is zero lookahead.
 
         Steps:
-            1. Slice prices and returns to [start, end)
-            2. Generate directional signals from self.strategy
-            3. Size positions bar-by-bar via self.executor
-            4. Shift positions by 1 bar to eliminate lookahead bias
-            5. Compute PnL via self.pnl_engine
-            6. Accumulate into self.results
+            1. Slice prices to [start-warmup, end), returns to [start, end)
+            2. Generate signals on the extended price slice
+            3. Drop warmup rows from signal_df (keep [start, end) only)
+            4. Size positions bar-by-bar for [start, end)
+            5. Shift positions by 1 bar to eliminate lookahead bias
+            6. Compute PnL via self.pnl_engine
+            7. Accumulate into self.results
 
         Args:
-            start   : First bar index (inclusive, into full prices/returns).
-            end     : Last bar index (exclusive).
-            prices  : Full close price DataFrame.
-            returns : Full excess returns DataFrame.
-            capital : Portfolio capital in USDT.
-
-        Returns:
-            PnL dict from PnLEngine.run() for this segment.
+            start       : First bar index to trade (inclusive).
+            end         : Last bar index (exclusive).
+            prices      : Full close price DataFrame.
+            returns     : Full excess returns DataFrame.
+            capital     : Portfolio capital in USDT.
+            warmup_bars : Extra bars before start passed to generate().
         """
-        prices_seg  = prices.iloc[start:end]
-        returns_seg = returns.iloc[start:end]
+        warmup_start = max(0, start - warmup_bars)
+        prices_warm  = prices.iloc[warmup_start:end]   # extended slice for generate()
+        prices_seg   = prices.iloc[start:end]           # trading window only
+        returns_seg  = returns.iloc[start:end]
 
-        # --- Generate signals ---
-        signal_df  = self.strategy.generate(prices_seg)
+        # --- Generate signals on extended window (includes warmup) ---
+        signal_df_full = self.strategy.generate(prices_warm)
         # Keep only asset columns — drop diagnostic cols (spread, zscore etc.)
-        asset_cols = [c for c in signal_df.columns if c in prices.columns]
-        signal_df  = signal_df[asset_cols]
+        asset_cols     = [c for c in signal_df_full.columns if c in prices.columns]
+        signal_df_full = signal_df_full[asset_cols]
+
+        # Drop warmup rows — only trade [start, end)
+        # Align by index to handle any timestamp edge cases cleanly
+        signal_df = signal_df_full.loc[signal_df_full.index.isin(prices_seg.index)]
+        if len(signal_df) == 0:
+            # Fallback: slice by position if index alignment fails
+            n_warmup  = len(prices_warm) - len(prices_seg)
+            signal_df = signal_df_full.iloc[n_warmup:]
 
         # --- Size positions bar by bar ---
         positions_list = []
@@ -146,7 +171,6 @@ class StrategySession:
         )
 
         # Shift by 1 bar — positions sized at bar t are traded at bar t+1.
-        # This is the standard lookahead-bias prevention technique.
         positions_df = positions_df.shift(1).fillna(0)
 
         # --- Compute PnL ---
@@ -193,7 +217,8 @@ class StrategySession:
         if start >= end:
             return {}
 
-        pnl_dict = self._run_segment(start, end, prices, returns, capital)
+        pnl_dict = self._run_segment(start, end, prices, returns, capital,
+                                      warmup_bars=self.warmup_bars)
 
         # --- Track best Sharpe on accumulated PnL (entire history so far) ---
         net_ret    = self.results["pnl_net"] / self.pnl_engine.initial_capital
