@@ -1,0 +1,66 @@
+# =============================================================================
+# experiment.yml — Master experiment configuration
+# COMP0051 Algorithmic Trading Coursework
+#
+# This is the ONLY file you need to edit between runs.
+# Change run_name when starting a new run.
+# Set search.enabled: true to run parameter search before full execution.
+# =============================================================================
+
+run_name: btc_eth_sol_2024_search
+
+# =============================================================================
+# SEARCH — parameter search settings
+# Set enabled: false to skip search and use params already in strategy ymls.
+# True  → runs staged_search_strategy, writes best params into run ymls, then runs.
+# False → runs directly using params in strategy ymls (default for submission).
+# =============================================================================
+search:
+  enabled: true
+  init_models: 15
+  val_fraction: 0.30       # 30% of data held out for validation Sharpe
+  schedule:
+    - bars: 2000
+      keep: 8
+    - bars: 2000
+      keep: 4
+    - bars: 2000
+      keep: 1
+
+# =============================================================================
+# DATA — loaded once upfront by run.py, passed to all strategies
+# =============================================================================
+data:
+  data_dir:  ./data
+  symbols:
+    - BTC/USDT
+    - ETH/USDT
+    - SOL/USDT
+  timeframe: 1h
+  since:     "2024-01-01"
+  until:     "2024-12-31"
+  rf_annual: 0.053          # 2024 effective Federal Funds Rate
+
+# =============================================================================
+# CAPITAL — brief's constraints
+# =============================================================================
+capital:
+  initial:   10000          # V0 = $10,000 USDT (brief requirement)
+  gross_cap: 100000         # max Σ|θ_i| = $100,000 (brief: max 10× leverage)
+
+# =============================================================================
+# EVAL — evaluation settings (used by evaluate.py)
+# =============================================================================
+eval:
+  data_dir: ./data
+  symbols:
+    - BTC/USDT
+    - ETH/USDT
+    - SOL/USDT
+
+# =============================================================================
+# STRATEGIES — comment out to skip, uncomment to include
+# =============================================================================
+strategies:
+  - pairs_cointegration
+  - trend_following

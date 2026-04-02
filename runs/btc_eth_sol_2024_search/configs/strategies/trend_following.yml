@@ -1,0 +1,55 @@
+strategy_name: trend_following
+params:
+  fast_span: 7.802885304256218
+  slow_span: 62.30445061788421
+  vol_window: 13.353348645529724
+  assets: &id001
+  - BTC/USDT
+  - ETH/USDT
+  - SOL/USDT
+  solver: cvxopt_qp
+  gross_cap: 100000.0
+  vol_target: 0.039314656464935455
+  mvo_lookback: 138.0974793578174
+  regularisation: 0.0001
+  risk_aversion: 1.0
+  mu_lookback: 168
+  warmup_bars: 200
+  initial_capital: 10000.0
+  slippage: 0.0008465977142735755
+best_config:
+  fast_span: 7.802885304256218
+  slow_span: 62.30445061788421
+  vol_window: 13.353348645529724
+  assets: *id001
+  solver: cvxopt_qp
+  gross_cap: 100000.0
+  vol_target: 0.039314656464935455
+  mvo_lookback: 138.0974793578174
+  regularisation: 0.0001
+  risk_aversion: 1.0
+  mu_lookback: 168
+  warmup_bars: 200
+  initial_capital: 10000.0
+  slippage: 0.0008465977142735755
+search_space:
+  fast_span:
+  - 6
+  - 24
+  - uniform
+  slow_span:
+  - 24
+  - 96
+  - uniform
+  vol_window:
+  - 12
+  - 48
+  - uniform
+  mvo_lookback:
+  - 72
+  - 336
+  - uniform
+  vol_target:
+  - 0.01
+  - 0.05
+  - uniform

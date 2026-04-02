@@ -7,7 +7,7 @@
 # Set search.enabled: true to run parameter search before full execution.
 # =============================================================================
 
-run_name: btc_eth_sol_2024
+run_name: btc_eth_sol_2024_search
 
 # =============================================================================
 # SEARCH — parameter search settings
@@ -16,7 +16,7 @@ run_name: btc_eth_sol_2024
 # False → runs directly using params in strategy ymls (default for submission).
 # =============================================================================
 search:
-  enabled: false
+  enabled: true
   init_models: 15
   val_fraction: 0.30       # 30% of data held out for validation Sharpe
   schedule:

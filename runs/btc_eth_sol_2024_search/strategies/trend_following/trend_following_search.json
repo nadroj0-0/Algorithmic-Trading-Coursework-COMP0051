@@ -1,0 +1,2297 @@
+{
+    "search_type": "successive_halving_3window_walk_forward",
+    "timestamp": "2026-04-01 12:37:48",
+    "initial_models": 15,
+    "schedule": [
+        {
+            "bars": 2000,
+            "keep": 8
+        },
+        {
+            "bars": 2000,
+            "keep": 4
+        },
+        {
+            "bars": 2000,
+            "keep": 1
+        }
+    ],
+    "val_fraction": 0.3,
+    "search_space": {
+        "fast_span": [
+            6.0,
+            24.0,
+            "uniform"
+        ],
+        "slow_span": [
+            24.0,
+            96.0,
+            "uniform"
+        ],
+        "vol_window": [
+            12.0,
+            48.0,
+            "uniform"
+        ],
+        "mvo_lookback": [
+            72.0,
+            336.0,
+            "uniform"
+        ],
+        "vol_target": [
+            0.01,
+            0.05,
+            "uniform"
+        ]
+    },
+    "best_config": {
+        "fast_span": 7.802885304256218,
+        "slow_span": 62.30445061788421,
+        "vol_window": 13.353348645529724,
+        "assets": [
+            "BTC/USDT",
+            "ETH/USDT",
+            "SOL/USDT"
+        ],
+        "solver": "cvxopt_qp",
+        "gross_cap": 100000.0,
+        "vol_target": 0.039314656464935455,
+        "mvo_lookback": 138.0974793578174,
+        "regularisation": 0.0001,
+        "risk_aversion": 1.0,
+        "mu_lookback": 168,
+        "warmup_bars": 200,
+        "initial_capital": 10000.0,
+        "slippage": 0.0008465977142735755
+    },
+    "best_val_metrics": {
+        "global_val_start": 6148,
+        "global_val_bars": 2635,
+        "window_size": 1000,
+        "n_windows": 3,
+        "search_type": "3_window_cross_val_walk_forward"
+    },
+    "runs": [
+        {
+            "id": "candidate_0_w1",
+            "config": {
+                "fast_span": 6.494559069039438,
+                "slow_span": 85.49908311881148,
+                "vol_window": 16.21345083968786,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.021942140630195364,
+                "mvo_lookback": 288.45520329343776,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -2.6297935002157464,
+                    "total_pnl_net": -4457.9764713976465,
+                    "total_pnl_gross": -656.4269971143685,
+                    "turnover": 322.87100606191024
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 3.0952031919256036
+                }
+            ]
+        },
+        {
+            "id": "candidate_0_w2",
+            "config": {
+                "fast_span": 6.494559069039438,
+                "slow_span": 85.49908311881148,
+                "vol_window": 16.21345083968786,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.021942140630195364,
+                "mvo_lookback": 288.45520329343776,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -2.6297935002157464
+                }
+            ]
+        },
+        {
+            "id": "candidate_0_w3",
+            "config": {
+                "fast_span": 6.494559069039438,
+                "slow_span": 85.49908311881148,
+                "vol_window": 16.21345083968786,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.021942140630195364,
+                "mvo_lookback": 288.45520329343776,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_1_w1",
+            "config": {
+                "fast_span": 6.1333490971543245,
+                "slow_span": 33.86972235923504,
+                "vol_window": 15.62629663902194,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.021787993183240234,
+                "mvo_lookback": 72.0722868806494,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -0.21331121453934437,
+                    "total_pnl_net": -356.14178971188085,
+                    "total_pnl_gross": 3997.5655349462313,
+                    "turnover": 726.0208773900762
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": -1.3139939311069861
+                }
+            ]
+        },
+        {
+            "id": "candidate_1_w2",
+            "config": {
+                "fast_span": 6.1333490971543245,
+                "slow_span": 33.86972235923504,
+                "vol_window": 15.62629663902194,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.021787993183240234,
+                "mvo_lookback": 72.0722868806494,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -0.21331121453934437
+                }
+            ]
+        },
+        {
+            "id": "candidate_1_w3",
+            "config": {
+                "fast_span": 6.1333490971543245,
+                "slow_span": 33.86972235923504,
+                "vol_window": 15.62629663902194,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.021787993183240234,
+                "mvo_lookback": 72.0722868806494,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_2_w1",
+            "config": {
+                "fast_span": 15.091877556539762,
+                "slow_span": 32.376315925362704,
+                "vol_window": 37.74946242141634,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.0173071867424116,
+                "mvo_lookback": 272.8210122097902,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -0.6112903285458162,
+                    "total_pnl_net": -769.1471625106151,
+                    "total_pnl_gross": 1809.969614476528,
+                    "turnover": 955.993605570678
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": 0.26462556828122324,
+                    "total_pnl_net": 1946.3412502108854,
+                    "total_pnl_gross": 7947.0428229012705,
+                    "turnover": 3611.1575086648572
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 2.724873029640969
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": -0.3457798548714103
+                }
+            ]
+        },
+        {
+            "id": "candidate_2_w2",
+            "config": {
+                "fast_span": 15.091877556539762,
+                "slow_span": 32.376315925362704,
+                "vol_window": 37.74946242141634,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.0173071867424116,
+                "mvo_lookback": 272.8210122097902,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": 1.4580559922438079,
+                    "total_pnl_net": 4945.017832332287,
+                    "total_pnl_gross": 11080.58005213782,
+                    "turnover": 3916.1165316436873
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -0.6112903285458162
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": -3.9343643460338305
+                }
+            ]
+        },
+        {
+            "id": "candidate_2_w3",
+            "config": {
+                "fast_span": 15.091877556539762,
+                "slow_span": 32.376315925362704,
+                "vol_window": 37.74946242141634,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.0173071867424116,
+                "mvo_lookback": 272.8210122097902,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -0.6112903285458162,
+                    "total_pnl_net": -769.1471625106151,
+                    "total_pnl_gross": 1809.969614476528,
+                    "turnover": 955.993605570678
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 2.724873029640969
+                }
+            ]
+        },
+        {
+            "id": "candidate_3_w1",
+            "config": {
+                "fast_span": 8.680448216732712,
+                "slow_span": 68.5175191026326,
+                "vol_window": 19.016997788004247,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.043464122283476146,
+                "mvo_lookback": 255.36078080558954,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -2.541328880753718,
+                    "total_pnl_net": -8282.140138346253,
+                    "total_pnl_gross": -1933.1066940973856,
+                    "turnover": 305.27723252151395
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 3.0481349330998846
+                }
+            ]
+        },
+        {
+            "id": "candidate_3_w2",
+            "config": {
+                "fast_span": 8.680448216732712,
+                "slow_span": 68.5175191026326,
+                "vol_window": 19.016997788004247,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.043464122283476146,
+                "mvo_lookback": 255.36078080558954,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -2.541328880753718
+                }
+            ]
+        },
+        {
+            "id": "candidate_3_w3",
+            "config": {
+                "fast_span": 8.680448216732712,
+                "slow_span": 68.5175191026326,
+                "vol_window": 19.016997788004247,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.043464122283476146,
+                "mvo_lookback": 255.36078080558954,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_4_w1",
+            "config": {
+                "fast_span": 18.780223018277898,
+                "slow_span": 28.240550626266653,
+                "vol_window": 38.39159050294441,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03011198986345008,
+                "mvo_lookback": 119.79866892959315,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -0.26245104196881475,
+                    "total_pnl_net": -578.9549246833822,
+                    "total_pnl_gross": 3778.587794994879,
+                    "turnover": 508.4937869919515
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": 0.3023572252732757,
+                    "total_pnl_net": 2898.5875829049337,
+                    "total_pnl_gross": 12501.46949444699,
+                    "turnover": 1042.4545274558852
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 2.9508039939862383
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": -0.20161311808817226
+                }
+            ]
+        },
+        {
+            "id": "candidate_4_w2",
+            "config": {
+                "fast_span": 18.780223018277898,
+                "slow_span": 28.240550626266653,
+                "vol_window": 38.39159050294441,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03011198986345008,
+                "mvo_lookback": 119.79866892959315,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": 1.6944600214023398,
+                    "total_pnl_net": 9664.794586510976,
+                    "total_pnl_gross": 19456.01333350139,
+                    "turnover": 1231.3448149902663
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -0.26245104196881475
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": -3.859501558919203
+                }
+            ]
+        },
+        {
+            "id": "candidate_4_w3",
+            "config": {
+                "fast_span": 18.780223018277898,
+                "slow_span": 28.240550626266653,
+                "vol_window": 38.39159050294441,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03011198986345008,
+                "mvo_lookback": 119.79866892959315,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -0.26245104196881475,
+                    "total_pnl_net": -578.9549246833822,
+                    "total_pnl_gross": 3778.587794994879,
+                    "turnover": 508.4937869919515
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 2.9508039939862383
+                }
+            ]
+        },
+        {
+            "id": "candidate_5_w1",
+            "config": {
+                "fast_span": 7.802885304256218,
+                "slow_span": 62.30445061788421,
+                "vol_window": 13.353348645529724,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.039314656464935455,
+                "mvo_lookback": 138.0974793578174,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -2.4590384640485343,
+                    "total_pnl_net": -7582.059323490521,
+                    "total_pnl_gross": -1196.5949851123473,
+                    "turnover": 765.2331155239158
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -0.22570353461541287,
+                    "total_pnl_net": 5338.489013685099,
+                    "total_pnl_gross": 15501.949682278973,
+                    "turnover": 2311.551184369921
+                },
+                {
+                    "bar_start": 3000,
+                    "bar_end": 5000,
+                    "sharpe_net": 0.09415791312055594,
+                    "total_pnl_net": 3705.1952206620035,
+                    "total_pnl_gross": 13234.487626977723,
+                    "turnover": 645.3338787239129
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 3.5312861357228424
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 1.6792446836602837
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 5000,
+                    "val_end": 6000,
+                    "val_sharpe": 1.5871695515436284
+                }
+            ]
+        },
+        {
+            "id": "candidate_5_w2",
+            "config": {
+                "fast_span": 7.802885304256218,
+                "slow_span": 62.30445061788421,
+                "vol_window": 13.353348645529724,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.039314656464935455,
+                "mvo_lookback": 138.0974793578174,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": 1.0578184734967626,
+                    "total_pnl_net": 7888.611411189993,
+                    "total_pnl_gross": 19594.613887592513,
+                    "turnover": 2626.023573207211
+                },
+                {
+                    "bar_start": 2000,
+                    "bar_end": 4000,
+                    "sharpe_net": 0.1996724252205418,
+                    "total_pnl_net": -5359.988577800013,
+                    "total_pnl_gross": 4119.429010634398,
+                    "turnover": 607.9804639063626
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -2.4590384640485343
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": -4.30879194697246
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 4000,
+                    "val_end": 5000,
+                    "val_sharpe": -0.2761431031727746
+                }
+            ]
+        },
+        {
+            "id": "candidate_5_w3",
+            "config": {
+                "fast_span": 7.802885304256218,
+                "slow_span": 62.30445061788421,
+                "vol_window": 13.353348645529724,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.039314656464935455,
+                "mvo_lookback": 138.0974793578174,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -2.4590384640485343,
+                    "total_pnl_net": -7582.059323490521,
+                    "total_pnl_gross": -1196.5949851123473,
+                    "turnover": 765.2331155239158
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -0.22570353461541287,
+                    "total_pnl_net": 5338.489013685099,
+                    "total_pnl_gross": 15501.949682278973,
+                    "turnover": 2311.551184369921
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 3.5312861357228424
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 1.6792446836602837
+                }
+            ]
+        },
+        {
+            "id": "candidate_6_w1",
+            "config": {
+                "fast_span": 9.600297959528884,
+                "slow_span": 71.72431176598502,
+                "vol_window": 34.14515559031035,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03290380797439944,
+                "mvo_lookback": 214.5245666551259,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -2.6321523261475455,
+                    "total_pnl_net": -6508.5278694206245,
+                    "total_pnl_gross": -1512.5734527809227,
+                    "turnover": 274.54695499202415
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -0.40349604226650543,
+                    "total_pnl_net": 3196.5472279088644,
+                    "total_pnl_gross": 12296.114583192564,
+                    "turnover": 2640.91492002544
+                },
+                {
+                    "bar_start": 3000,
+                    "bar_end": 5000,
+                    "sharpe_net": -0.24936862022851408,
+                    "total_pnl_net": 113.75752878071853,
+                    "total_pnl_gross": 7861.1163168244075,
+                    "turnover": 266.5818758219736
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 3.1941307377873316
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 1.8044282763498214
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 5000,
+                    "val_end": 6000,
+                    "val_sharpe": 0.9973752134479382
+                }
+            ]
+        },
+        {
+            "id": "candidate_6_w2",
+            "config": {
+                "fast_span": 9.600297959528884,
+                "slow_span": 71.72431176598502,
+                "vol_window": 34.14515559031035,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03290380797439944,
+                "mvo_lookback": 214.5245666551259,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": 0.8715125339615236,
+                    "total_pnl_net": 5413.75419420391,
+                    "total_pnl_gross": 15265.269607442995,
+                    "turnover": 2638.8016878713256
+                },
+                {
+                    "bar_start": 2000,
+                    "bar_end": 4000,
+                    "sharpe_net": 0.09123489085082959,
+                    "total_pnl_net": -4458.152066714025,
+                    "total_pnl_gross": 3528.9033062417757,
+                    "turnover": 329.5149262640006
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -2.6321523261475455
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": -4.717934446076066
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 4000,
+                    "val_end": 5000,
+                    "val_sharpe": -1.669023977319398
+                }
+            ]
+        },
+        {
+            "id": "candidate_6_w3",
+            "config": {
+                "fast_span": 9.600297959528884,
+                "slow_span": 71.72431176598502,
+                "vol_window": 34.14515559031035,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03290380797439944,
+                "mvo_lookback": 214.5245666551259,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -2.6321523261475455,
+                    "total_pnl_net": -6508.5278694206245,
+                    "total_pnl_gross": -1512.5734527809227,
+                    "turnover": 274.54695499202415
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -0.40349604226650543,
+                    "total_pnl_net": 3196.5472279088644,
+                    "total_pnl_gross": 12296.114583192564,
+                    "turnover": 2640.91492002544
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 3.1941307377873316
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 1.8044282763498214
+                }
+            ]
+        },
+        {
+            "id": "candidate_7_w1",
+            "config": {
+                "fast_span": 22.107519881928713,
+                "slow_span": 59.73933635602972,
+                "vol_window": 37.737803383222314,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.032024762363150036,
+                "mvo_lookback": 100.50849535002071,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -2.1372759623287774,
+                    "total_pnl_net": -5348.197782496087,
+                    "total_pnl_gross": -802.5977820019771,
+                    "turnover": 412.722419168238
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -0.011924724295722533,
+                    "total_pnl_net": 5249.294455197738,
+                    "total_pnl_gross": 13471.514867267184,
+                    "turnover": 326.0565111026894
+                },
+                {
+                    "bar_start": 3000,
+                    "bar_end": 5000,
+                    "sharpe_net": 0.07600366636837715,
+                    "total_pnl_net": 1078.3729993777542,
+                    "total_pnl_gross": 7961.112532383038,
+                    "turnover": 254.85611458746226
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 4.6559350498881855
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 2.5743951334103445
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 5000,
+                    "val_end": 6000,
+                    "val_sharpe": 0.3820763034449875
+                }
+            ]
+        },
+        {
+            "id": "candidate_7_w2",
+            "config": {
+                "fast_span": 22.107519881928713,
+                "slow_span": 59.73933635602972,
+                "vol_window": 37.737803383222314,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.032024762363150036,
+                "mvo_lookback": 100.50849535002071,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": 1.8673491780256586,
+                    "total_pnl_net": 11481.815274060455,
+                    "total_pnl_gross": 20182.69969089883,
+                    "turnover": 442.8210670442115
+                },
+                {
+                    "bar_start": 2000,
+                    "bar_end": 4000,
+                    "sharpe_net": 0.544906762458156,
+                    "total_pnl_net": -5745.7423751181395,
+                    "total_pnl_gross": 1695.6177494128633,
+                    "turnover": 326.2163534897647
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -2.1372759623287774
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": -5.6358103434777975
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 4000,
+                    "val_end": 5000,
+                    "val_sharpe": -1.9345293639678922
+                }
+            ]
+        },
+        {
+            "id": "candidate_7_w3",
+            "config": {
+                "fast_span": 22.107519881928713,
+                "slow_span": 59.73933635602972,
+                "vol_window": 37.737803383222314,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.032024762363150036,
+                "mvo_lookback": 100.50849535002071,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -2.1372759623287774,
+                    "total_pnl_net": -5348.197782496087,
+                    "total_pnl_gross": -802.5977820019771,
+                    "turnover": 412.722419168238
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -0.011924724295722533,
+                    "total_pnl_net": 5249.294455197738,
+                    "total_pnl_gross": 13471.514867267184,
+                    "turnover": 326.0565111026894
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 4.6559350498881855
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 2.5743951334103445
+                }
+            ]
+        },
+        {
+            "id": "candidate_8_w1",
+            "config": {
+                "fast_span": 19.320415489845985,
+                "slow_span": 39.37597897061474,
+                "vol_window": 44.41605339478067,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.020403095835201966,
+                "mvo_lookback": 211.61246749504227,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -1.4469398749470328,
+                    "total_pnl_net": -2106.34134422985,
+                    "total_pnl_gross": 788.1704672759845,
+                    "turnover": 222.2957062157922
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -0.7002893809215595,
+                    "total_pnl_net": -1483.2143132372858,
+                    "total_pnl_gross": 5206.643997589525,
+                    "turnover": 2213.630419530852
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 2.492523290138307
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 0.7947494584598247
+                }
+            ]
+        },
+        {
+            "id": "candidate_8_w2",
+            "config": {
+                "fast_span": 19.320415489845985,
+                "slow_span": 39.37597897061474,
+                "vol_window": 44.41605339478067,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.020403095835201966,
+                "mvo_lookback": 211.61246749504227,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": 0.9948178115389091,
+                    "total_pnl_net": 3828.232243608151,
+                    "total_pnl_gross": 10479.338041873674,
+                    "turnover": 2144.4747678054123
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -1.4469398749470328
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": -6.204373279807131
+                }
+            ]
+        },
+        {
+            "id": "candidate_8_w3",
+            "config": {
+                "fast_span": 19.320415489845985,
+                "slow_span": 39.37597897061474,
+                "vol_window": 44.41605339478067,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.020403095835201966,
+                "mvo_lookback": 211.61246749504227,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -1.4469398749470328,
+                    "total_pnl_net": -2106.34134422985,
+                    "total_pnl_gross": 788.1704672759845,
+                    "turnover": 222.2957062157922
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 2.492523290138307
+                }
+            ]
+        },
+        {
+            "id": "candidate_9_w1",
+            "config": {
+                "fast_span": 9.648306814269223,
+                "slow_span": 56.98104037722413,
+                "vol_window": 39.18981071410845,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.04283667482229837,
+                "mvo_lookback": 222.34419492603928,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -3.383723917215734,
+                    "total_pnl_net": -10252.723944470672,
+                    "total_pnl_gross": -4002.556731235822,
+                    "turnover": 186.61041888072694
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 2.9012809408985754
+                }
+            ]
+        },
+        {
+            "id": "candidate_9_w2",
+            "config": {
+                "fast_span": 9.648306814269223,
+                "slow_span": 56.98104037722413,
+                "vol_window": 39.18981071410845,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.04283667482229837,
+                "mvo_lookback": 222.34419492603928,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -3.383723917215734
+                }
+            ]
+        },
+        {
+            "id": "candidate_9_w3",
+            "config": {
+                "fast_span": 9.648306814269223,
+                "slow_span": 56.98104037722413,
+                "vol_window": 39.18981071410845,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.04283667482229837,
+                "mvo_lookback": 222.34419492603928,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_10_w1",
+            "config": {
+                "fast_span": 10.11031353689091,
+                "slow_span": 34.41074882700218,
+                "vol_window": 47.29240220985858,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03969188218768864,
+                "mvo_lookback": 112.42417163245754,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -0.457808182761601,
+                    "total_pnl_net": -1291.1236073083983,
+                    "total_pnl_gross": 4712.601644290723,
+                    "turnover": 676.5956606344804
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": 0.02392199064703804,
+                    "total_pnl_net": 1530.5235337180775,
+                    "total_pnl_gross": 13285.314067797,
+                    "turnover": 4184.636742937245
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 1.5519261696148476
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 0.2866787026607663
+                }
+            ]
+        },
+        {
+            "id": "candidate_10_w2",
+            "config": {
+                "fast_span": 10.11031353689091,
+                "slow_span": 34.41074882700218,
+                "vol_window": 47.29240220985858,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03969188218768864,
+                "mvo_lookback": 112.42417163245754,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": 0.8008830425925321,
+                    "total_pnl_net": 5944.982577782859,
+                    "total_pnl_gross": 18784.933075013232,
+                    "turnover": 4477.50645037098
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -0.457808182761601
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": -2.20959368304227
+                }
+            ]
+        },
+        {
+            "id": "candidate_10_w3",
+            "config": {
+                "fast_span": 10.11031353689091,
+                "slow_span": 34.41074882700218,
+                "vol_window": 47.29240220985858,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03969188218768864,
+                "mvo_lookback": 112.42417163245754,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -0.457808182761601,
+                    "total_pnl_net": -1291.1236073083983,
+                    "total_pnl_gross": 4712.601644290723,
+                    "turnover": 676.5956606344804
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 1.5519261696148476
+                }
+            ]
+        },
+        {
+            "id": "candidate_11_w1",
+            "config": {
+                "fast_span": 8.653535571956452,
+                "slow_span": 26.760314178483327,
+                "vol_window": 16.89394990256507,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.019097375070925432,
+                "mvo_lookback": 333.9334777466114,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": 0.7214694701893334,
+                    "total_pnl_net": 1032.4570667493717,
+                    "total_pnl_gross": 4527.367750133362,
+                    "turnover": 3650.1821391167964
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": -0.2683061063756736
+                }
+            ]
+        },
+        {
+            "id": "candidate_11_w2",
+            "config": {
+                "fast_span": 8.653535571956452,
+                "slow_span": 26.760314178483327,
+                "vol_window": 16.89394990256507,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.019097375070925432,
+                "mvo_lookback": 333.9334777466114,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": 0.7214694701893334
+                }
+            ]
+        },
+        {
+            "id": "candidate_11_w3",
+            "config": {
+                "fast_span": 8.653535571956452,
+                "slow_span": 26.760314178483327,
+                "vol_window": 16.89394990256507,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.019097375070925432,
+                "mvo_lookback": 333.9334777466114,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_12_w1",
+            "config": {
+                "fast_span": 20.563172308677114,
+                "slow_span": 65.81336126458723,
+                "vol_window": 15.61476581984507,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03060646665139289,
+                "mvo_lookback": 272.2727818580827,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -1.9768415424092787,
+                    "total_pnl_net": -4760.137725148792,
+                    "total_pnl_gross": -303.1510840229296,
+                    "turnover": 517.0410462117081
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": 0.21712676233899939,
+                    "total_pnl_net": 6459.6823917776,
+                    "total_pnl_gross": 14141.344899744328,
+                    "turnover": 362.6159768635826
+                },
+                {
+                    "bar_start": 3000,
+                    "bar_end": 5000,
+                    "sharpe_net": 0.1715900628356357,
+                    "total_pnl_net": 384.3084154750304,
+                    "total_pnl_gross": 6939.383285220842,
+                    "turnover": 106.29087788437955
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 5.075121489467986
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 1.8208970449096977
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 5000,
+                    "val_end": 6000,
+                    "val_sharpe": -0.27692859592442126
+                }
+            ]
+        },
+        {
+            "id": "candidate_12_w2",
+            "config": {
+                "fast_span": 20.563172308677114,
+                "slow_span": 65.81336126458723,
+                "vol_window": 15.61476581984507,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03060646665139289,
+                "mvo_lookback": 272.2727818580827,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": 2.19822487327541,
+                    "total_pnl_net": 13159.140891007797,
+                    "total_pnl_gross": 21514.721282806106,
+                    "turnover": 297.2467160114761
+                },
+                {
+                    "bar_start": 2000,
+                    "bar_end": 4000,
+                    "sharpe_net": 0.5741827961257886,
+                    "total_pnl_net": -7431.828071962993,
+                    "total_pnl_gross": -637.1748417919007,
+                    "turnover": 377.80662507244614
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -1.9768415424092787
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": -7.094220074349149
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 4000,
+                    "val_end": 5000,
+                    "val_sharpe": -1.6067473397575636
+                }
+            ]
+        },
+        {
+            "id": "candidate_12_w3",
+            "config": {
+                "fast_span": 20.563172308677114,
+                "slow_span": 65.81336126458723,
+                "vol_window": 15.61476581984507,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03060646665139289,
+                "mvo_lookback": 272.2727818580827,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -1.9768415424092787,
+                    "total_pnl_net": -4760.137725148792,
+                    "total_pnl_gross": -303.1510840229296,
+                    "turnover": 517.0410462117081
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": 0.21712676233899939,
+                    "total_pnl_net": 6459.6823917776,
+                    "total_pnl_gross": 14141.344899744328,
+                    "turnover": 362.6159768635826
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 5.075121489467986
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 1.8208970449096977
+                }
+            ]
+        },
+        {
+            "id": "candidate_13_w1",
+            "config": {
+                "fast_span": 11.458993184140066,
+                "slow_span": 58.41427729226051,
+                "vol_window": 47.18041046572574,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.02782134784136838,
+                "mvo_lookback": 79.15730819592453,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -2.4431815232505327,
+                    "total_pnl_net": -5183.292768556943,
+                    "total_pnl_gross": -699.1025284808009,
+                    "turnover": 351.8354078364671
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 2.640410761943353
+                }
+            ]
+        },
+        {
+            "id": "candidate_13_w2",
+            "config": {
+                "fast_span": 11.458993184140066,
+                "slow_span": 58.41427729226051,
+                "vol_window": 47.18041046572574,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.02782134784136838,
+                "mvo_lookback": 79.15730819592453,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -2.4431815232505327
+                }
+            ]
+        },
+        {
+            "id": "candidate_13_w3",
+            "config": {
+                "fast_span": 11.458993184140066,
+                "slow_span": 58.41427729226051,
+                "vol_window": 47.18041046572574,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.02782134784136838,
+                "mvo_lookback": 79.15730819592453,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_14_w1",
+            "config": {
+                "fast_span": 10.001386414993403,
+                "slow_span": 38.05620817312952,
+                "vol_window": 31.428262202158972,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.031107202762951112,
+                "mvo_lookback": 238.53088367413667,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -1.3471038447357038,
+                    "total_pnl_net": -3014.504048058388,
+                    "total_pnl_gross": 1738.998727157426,
+                    "turnover": 1381.6872381643398
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 1.6836482972603855
+                }
+            ]
+        },
+        {
+            "id": "candidate_14_w2",
+            "config": {
+                "fast_span": 10.001386414993403,
+                "slow_span": 38.05620817312952,
+                "vol_window": 31.428262202158972,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.031107202762951112,
+                "mvo_lookback": 238.53088367413667,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -1.3471038447357038
+                }
+            ]
+        },
+        {
+            "id": "candidate_14_w3",
+            "config": {
+                "fast_span": 10.001386414993403,
+                "slow_span": 38.05620817312952,
+                "vol_window": 31.428262202158972,
+                "assets": [
+                    "BTC/USDT",
+                    "ETH/USDT",
+                    "SOL/USDT"
+                ],
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.031107202762951112,
+                "mvo_lookback": 238.53088367413667,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 200,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        }
+    ]
+}

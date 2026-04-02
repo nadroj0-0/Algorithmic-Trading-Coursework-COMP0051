@@ -1,0 +1,78 @@
+[
+  {
+    "strategy": "pairs_cointegration",
+    "gross": {
+      "pairs_cointegration_gross": {
+        "Total Return (%)": 29.68,
+        "Total PnL (USDT)": 2967.68,
+        "Ann. Return (%)": 29.59,
+        "Ann. Volatility (%)": 18.79,
+        "Sharpe": 1.471,
+        "Sortino": 0.192,
+        "Calmar": 3.408,
+        "Max Drawdown (%)": -8.68,
+        "Avg Drawdown (%)": -3.99,
+        "Win Rate (%)": 0.4,
+        "Profit Factor": 1.667
+      }
+    },
+    "net": {
+      "pairs_cointegration_net": {
+        "Total Return (%)": 21.24,
+        "Total PnL (USDT)": 2124.14,
+        "Ann. Return (%)": 21.18,
+        "Ann. Volatility (%)": 19.73,
+        "Sharpe": 1.07,
+        "Sortino": 0.141,
+        "Calmar": 1.994,
+        "Max Drawdown (%)": -10.62,
+        "Avg Drawdown (%)": -5.15,
+        "Win Rate (%)": 0.4,
+        "Profit Factor": 1.429
+      }
+    },
+    "total_pnl_gross": 2967.678925567926,
+    "total_pnl_net": 2124.1412591750177,
+    "pct_return_net": 0.21241412591750178,
+    "turnover": null,
+    "holding_hrs": null
+  },
+  {
+    "strategy": "trend_following",
+    "gross": {
+      "trend_following_gross": {
+        "Total Return (%)": 534.37,
+        "Total PnL (USDT)": 53436.89,
+        "Ann. Return (%)": 531.31,
+        "Ann. Volatility (%)": 171.42,
+        "Sharpe": 1.925,
+        "Sortino": 2.078,
+        "Calmar": 6.19,
+        "Max Drawdown (%)": -85.83,
+        "Avg Drawdown (%)": -15.7,
+        "Win Rate (%)": 50.37,
+        "Profit Factor": 1.108
+      }
+    },
+    "net": {
+      "trend_following_net": {
+        "Total Return (%)": 64.17,
+        "Total PnL (USDT)": 6416.77,
+        "Ann. Return (%)": 63.95,
+        "Ann. Volatility (%)": 2076.49,
+        "Sharpe": 1.416,
+        "Sortino": 2.946,
+        "Calmar": 0.516,
+        "Max Drawdown (%)": -124.04,
+        "Avg Drawdown (%)": -45.05,
+        "Win Rate (%)": 47.05,
+        "Profit Factor": 1.314
+      }
+    },
+    "total_pnl_gross": 53436.89126293748,
+    "total_pnl_net": 6416.771783300355,
+    "pct_return_net": 0.6416771783300356,
+    "turnover": null,
+    "holding_hrs": null
+  }
+]

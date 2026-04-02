@@ -1,0 +1,2266 @@
+{
+    "search_type": "successive_halving_3window_walk_forward",
+    "timestamp": "2026-04-01 12:31:53",
+    "initial_models": 15,
+    "schedule": [
+        {
+            "bars": 2000,
+            "keep": 8
+        },
+        {
+            "bars": 2000,
+            "keep": 4
+        },
+        {
+            "bars": 2000,
+            "keep": 1
+        }
+    ],
+    "val_fraction": 0.3,
+    "search_space": {
+        "coint_window": [
+            480.0,
+            1440.0,
+            "uniform"
+        ],
+        "coint_pvalue_threshold": [
+            0.01,
+            0.1,
+            "uniform"
+        ],
+        "zscore_window": [
+            72.0,
+            336.0,
+            "uniform"
+        ],
+        "entry_z": [
+            1.0,
+            2.5,
+            "uniform"
+        ],
+        "exit_z": [
+            0.1,
+            0.8,
+            "uniform"
+        ],
+        "stop_z": [
+            2.5,
+            4.0,
+            "uniform"
+        ],
+        "mvo_lookback": [
+            72.0,
+            336.0,
+            "uniform"
+        ],
+        "vol_target": [
+            0.01,
+            0.05,
+            "uniform"
+        ]
+    },
+    "best_config": {
+        "coint_window": 619.3826994111581,
+        "coint_pvalue_threshold": 0.041916861729906184,
+        "hedge_window": 720,
+        "zscore_window": 220.70489169934228,
+        "entry_z": 1.764477572213789,
+        "exit_z": 0.30637718960313876,
+        "stop_z": 3.182848366444982,
+        "solver": "cvxopt_qp",
+        "gross_cap": 100000.0,
+        "vol_target": 0.034383551279624315,
+        "mvo_lookback": 288.19373100686744,
+        "regularisation": 0.0001,
+        "risk_aversion": 1.0,
+        "mu_lookback": 168,
+        "warmup_bars": 1000,
+        "initial_capital": 10000.0,
+        "slippage": 0.0008465977142735755
+    },
+    "best_val_metrics": {
+        "global_val_start": 6148,
+        "global_val_bars": 2635,
+        "window_size": 1000,
+        "n_windows": 3,
+        "search_type": "3_window_cross_val_walk_forward"
+    },
+    "runs": [
+        {
+            "id": "candidate_0_w1",
+            "config": {
+                "coint_window": 1401.3860575633387,
+                "coint_pvalue_threshold": 0.07973887197907509,
+                "hedge_window": 720,
+                "zscore_window": 80.98148515563476,
+                "entry_z": 1.3089401743764895,
+                "exit_z": 0.3651646835498712,
+                "stop_z": 3.459832361579352,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.04574025063301444,
+                "mvo_lookback": 250.8522777050229,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -1.0892943374222066,
+                    "total_pnl_net": -538.2898313472895,
+                    "total_pnl_gross": -22.11216685027496,
+                    "turnover": 42.04711075654873
+                },
+                {
+                    "bar_start": 3000,
+                    "bar_end": 5000,
+                    "sharpe_net": -1.34608866964069,
+                    "total_pnl_net": -945.378397914614,
+                    "total_pnl_gross": 154.22540759965125,
+                    "turnover": 0.07675217956448457
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 5000,
+                    "val_end": 6000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_0_w2",
+            "config": {
+                "coint_window": 1401.3860575633387,
+                "coint_pvalue_threshold": 0.07973887197907509,
+                "hedge_window": 720,
+                "zscore_window": 80.98148515563476,
+                "entry_z": 1.3089401743764895,
+                "exit_z": 0.3651646835498712,
+                "stop_z": 3.459832361579352,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.04574025063301444,
+                "mvo_lookback": 250.8522777050229,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 2000,
+                    "bar_end": 4000,
+                    "sharpe_net": -0.9433799091538594,
+                    "total_pnl_net": -538.2898313472895,
+                    "total_pnl_gross": -22.11216685027496,
+                    "turnover": 42.04711075654873
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": -1.8863395293520397
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 4000,
+                    "val_end": 5000,
+                    "val_sharpe": -2.3513520505689463
+                }
+            ]
+        },
+        {
+            "id": "candidate_0_w3",
+            "config": {
+                "coint_window": 1401.3860575633387,
+                "coint_pvalue_threshold": 0.07973887197907509,
+                "hedge_window": 720,
+                "zscore_window": 80.98148515563476,
+                "entry_z": 1.3089401743764895,
+                "exit_z": 0.3651646835498712,
+                "stop_z": 3.459832361579352,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.04574025063301444,
+                "mvo_lookback": 250.8522777050229,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -1.0892943374222066,
+                    "total_pnl_net": -538.2898313472895,
+                    "total_pnl_gross": -22.11216685027496,
+                    "turnover": 42.04711075654873
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_1_w1",
+            "config": {
+                "coint_window": 1355.9131921976077,
+                "coint_pvalue_threshold": 0.09286686408834534,
+                "hedge_window": 720,
+                "zscore_window": 89.446873079402,
+                "entry_z": 2.045542872784041,
+                "exit_z": 0.26398611987996534,
+                "stop_z": 3.9361731691739013,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.010383935439879735,
+                "mvo_lookback": 211.77941089645583,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -1.7728367322663605,
+                    "total_pnl_net": -33.36335377526164,
+                    "total_pnl_gross": 30.894734067558886,
+                    "turnover": 1.0
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": -3.070721525732121
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_1_w2",
+            "config": {
+                "coint_window": 1355.9131921976077,
+                "coint_pvalue_threshold": 0.09286686408834534,
+                "hedge_window": 720,
+                "zscore_window": 89.446873079402,
+                "entry_z": 2.045542872784041,
+                "exit_z": 0.26398611987996534,
+                "stop_z": 3.9361731691739013,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.010383935439879735,
+                "mvo_lookback": 211.77941089645583,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": -2.171286517924066,
+                    "total_pnl_net": -33.36335377526164,
+                    "total_pnl_gross": 30.894734067558886,
+                    "turnover": 1.0
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_1_w3",
+            "config": {
+                "coint_window": 1355.9131921976077,
+                "coint_pvalue_threshold": 0.09286686408834534,
+                "hedge_window": 720,
+                "zscore_window": 89.446873079402,
+                "entry_z": 2.045542872784041,
+                "exit_z": 0.26398611987996534,
+                "stop_z": 3.9361731691739013,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.010383935439879735,
+                "mvo_lookback": 211.77941089645583,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": -3.070721525732121
+                }
+            ]
+        },
+        {
+            "id": "candidate_2_w1",
+            "config": {
+                "coint_window": 803.841063457184,
+                "coint_pvalue_threshold": 0.0918188850976,
+                "hedge_window": 720,
+                "zscore_window": 221.11035699088393,
+                "entry_z": 1.5647163604503531,
+                "exit_z": 0.6677305049304398,
+                "stop_z": 3.5086301287958865,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.030083627483355475,
+                "mvo_lookback": 222.2036780808379,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -2.95176984849849,
+                    "total_pnl_net": -795.2835898960884,
+                    "total_pnl_gross": -308.9422359811684,
+                    "turnover": 470.2405140657077
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_2_w2",
+            "config": {
+                "coint_window": 803.841063457184,
+                "coint_pvalue_threshold": 0.0918188850976,
+                "hedge_window": 720,
+                "zscore_window": 221.11035699088393,
+                "entry_z": 1.5647163604503531,
+                "exit_z": 0.6677305049304398,
+                "stop_z": 3.5086301287958865,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.030083627483355475,
+                "mvo_lookback": 222.2036780808379,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": -5.116003045890466
+                }
+            ]
+        },
+        {
+            "id": "candidate_2_w3",
+            "config": {
+                "coint_window": 803.841063457184,
+                "coint_pvalue_threshold": 0.0918188850976,
+                "hedge_window": 720,
+                "zscore_window": 221.11035699088393,
+                "entry_z": 1.5647163604503531,
+                "exit_z": 0.6677305049304398,
+                "stop_z": 3.5086301287958865,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.030083627483355475,
+                "mvo_lookback": 222.2036780808379,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_3_w1",
+            "config": {
+                "coint_window": 880.6860382660163,
+                "coint_pvalue_threshold": 0.0886331489277526,
+                "hedge_window": 720,
+                "zscore_window": 166.15902969664984,
+                "entry_z": 2.464237012944661,
+                "exit_z": 0.2191110351675331,
+                "stop_z": 3.501809504403647,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.01714717067452875,
+                "mvo_lookback": 284.8431841210315,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -2.355254079830303,
+                    "total_pnl_net": -103.84230942629185,
+                    "total_pnl_gross": -24.151574928717352,
+                    "turnover": 1.0
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_3_w2",
+            "config": {
+                "coint_window": 880.6860382660163,
+                "coint_pvalue_threshold": 0.0886331489277526,
+                "hedge_window": 720,
+                "zscore_window": 166.15902969664984,
+                "entry_z": 2.464237012944661,
+                "exit_z": 0.2191110351675331,
+                "stop_z": 3.501809504403647,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.01714717067452875,
+                "mvo_lookback": 284.8431841210315,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": -4.080644970974729
+                }
+            ]
+        },
+        {
+            "id": "candidate_3_w3",
+            "config": {
+                "coint_window": 880.6860382660163,
+                "coint_pvalue_threshold": 0.0886331489277526,
+                "hedge_window": 720,
+                "zscore_window": 166.15902969664984,
+                "entry_z": 2.464237012944661,
+                "exit_z": 0.2191110351675331,
+                "stop_z": 3.501809504403647,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.01714717067452875,
+                "mvo_lookback": 284.8431841210315,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_4_w1",
+            "config": {
+                "coint_window": 1038.8671581709204,
+                "coint_pvalue_threshold": 0.07875789161043004,
+                "hedge_window": 720,
+                "zscore_window": 241.41357880338424,
+                "entry_z": 2.2594431676462983,
+                "exit_z": 0.15928794186216655,
+                "stop_z": 3.7170953328548335,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.024631161329003018,
+                "mvo_lookback": 293.92412259857235,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 3000,
+                    "bar_end": 5000,
+                    "sharpe_net": -0.67655232958196,
+                    "total_pnl_net": -8.209649084777004e-05,
+                    "total_pnl_gross": 0.0001365290362864642,
+                    "turnover": 0.4295235497532056
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": -1.5123697173307962
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 5000,
+                    "val_end": 6000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_4_w2",
+            "config": {
+                "coint_window": 1038.8671581709204,
+                "coint_pvalue_threshold": 0.07875789161043004,
+                "hedge_window": 720,
+                "zscore_window": 241.41357880338424,
+                "entry_z": 2.2594431676462983,
+                "exit_z": 0.15928794186216655,
+                "stop_z": 3.7170953328548335,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.024631161329003018,
+                "mvo_lookback": 293.92412259857235,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 2000,
+                    "bar_end": 4000,
+                    "sharpe_net": -0.7563945267558462,
+                    "total_pnl_net": -8.209649084777004e-05,
+                    "total_pnl_gross": 0.0001365290362864642,
+                    "turnover": 0.4295235497532056
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 4000,
+                    "val_end": 5000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_4_w3",
+            "config": {
+                "coint_window": 1038.8671581709204,
+                "coint_pvalue_threshold": 0.07875789161043004,
+                "hedge_window": 720,
+                "zscore_window": 241.41357880338424,
+                "entry_z": 2.2594431676462983,
+                "exit_z": 0.15928794186216655,
+                "stop_z": 3.7170953328548335,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.024631161329003018,
+                "mvo_lookback": 293.92412259857235,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": -1.5123697173307962
+                }
+            ]
+        },
+        {
+            "id": "candidate_5_w1",
+            "config": {
+                "coint_window": 1029.0684165599214,
+                "coint_pvalue_threshold": 0.09162324426027882,
+                "hedge_window": 720,
+                "zscore_window": 127.91599661614117,
+                "entry_z": 2.360383052444947,
+                "exit_z": 0.43301964514385005,
+                "stop_z": 3.025177940275663,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.030220569189199457,
+                "mvo_lookback": 73.73644231381907,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_5_w2",
+            "config": {
+                "coint_window": 1029.0684165599214,
+                "coint_pvalue_threshold": 0.09162324426027882,
+                "hedge_window": 720,
+                "zscore_window": 127.91599661614117,
+                "entry_z": 2.360383052444947,
+                "exit_z": 0.43301964514385005,
+                "stop_z": 3.025177940275663,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.030220569189199457,
+                "mvo_lookback": 73.73644231381907,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_5_w3",
+            "config": {
+                "coint_window": 1029.0684165599214,
+                "coint_pvalue_threshold": 0.09162324426027882,
+                "hedge_window": 720,
+                "zscore_window": 127.91599661614117,
+                "entry_z": 2.360383052444947,
+                "exit_z": 0.43301964514385005,
+                "stop_z": 3.025177940275663,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.030220569189199457,
+                "mvo_lookback": 73.73644231381907,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_6_w1",
+            "config": {
+                "coint_window": 1275.792317772356,
+                "coint_pvalue_threshold": 0.07227943627954625,
+                "hedge_window": 720,
+                "zscore_window": 276.8643488180718,
+                "entry_z": 2.2642869963580035,
+                "exit_z": 0.2820941336853662,
+                "stop_z": 3.6657463770262417,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.030316917665955317,
+                "mvo_lookback": 225.1751440308123,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_6_w2",
+            "config": {
+                "coint_window": 1275.792317772356,
+                "coint_pvalue_threshold": 0.07227943627954625,
+                "hedge_window": 720,
+                "zscore_window": 276.8643488180718,
+                "entry_z": 2.2642869963580035,
+                "exit_z": 0.2820941336853662,
+                "stop_z": 3.6657463770262417,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.030316917665955317,
+                "mvo_lookback": 225.1751440308123,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_6_w3",
+            "config": {
+                "coint_window": 1275.792317772356,
+                "coint_pvalue_threshold": 0.07227943627954625,
+                "hedge_window": 720,
+                "zscore_window": 276.8643488180718,
+                "entry_z": 2.2642869963580035,
+                "exit_z": 0.2820941336853662,
+                "stop_z": 3.6657463770262417,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.030316917665955317,
+                "mvo_lookback": 225.1751440308123,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_7_w1",
+            "config": {
+                "coint_window": 951.7363483832264,
+                "coint_pvalue_threshold": 0.07750851195336028,
+                "hedge_window": 720,
+                "zscore_window": 242.25129685525914,
+                "entry_z": 2.0723495862873436,
+                "exit_z": 0.422925429190694,
+                "stop_z": 2.632467788965624,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03284660002110212,
+                "mvo_lookback": 212.02233145031752,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_7_w2",
+            "config": {
+                "coint_window": 951.7363483832264,
+                "coint_pvalue_threshold": 0.07750851195336028,
+                "hedge_window": 720,
+                "zscore_window": 242.25129685525914,
+                "entry_z": 2.0723495862873436,
+                "exit_z": 0.422925429190694,
+                "stop_z": 2.632467788965624,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03284660002110212,
+                "mvo_lookback": 212.02233145031752,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_7_w3",
+            "config": {
+                "coint_window": 951.7363483832264,
+                "coint_pvalue_threshold": 0.07750851195336028,
+                "hedge_window": 720,
+                "zscore_window": 242.25129685525914,
+                "entry_z": 2.0723495862873436,
+                "exit_z": 0.422925429190694,
+                "stop_z": 2.632467788965624,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.03284660002110212,
+                "mvo_lookback": 212.02233145031752,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_8_w1",
+            "config": {
+                "coint_window": 1339.9364272036405,
+                "coint_pvalue_threshold": 0.0575434338686854,
+                "hedge_window": 720,
+                "zscore_window": 222.4828212020032,
+                "entry_z": 1.587991676779459,
+                "exit_z": 0.125762468702015,
+                "stop_z": 3.5507911161872996,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.049149797873544156,
+                "mvo_lookback": 272.01092498107585,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_8_w2",
+            "config": {
+                "coint_window": 1339.9364272036405,
+                "coint_pvalue_threshold": 0.0575434338686854,
+                "hedge_window": 720,
+                "zscore_window": 222.4828212020032,
+                "entry_z": 1.587991676779459,
+                "exit_z": 0.125762468702015,
+                "stop_z": 3.5507911161872996,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.049149797873544156,
+                "mvo_lookback": 272.01092498107585,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_8_w3",
+            "config": {
+                "coint_window": 1339.9364272036405,
+                "coint_pvalue_threshold": 0.0575434338686854,
+                "hedge_window": 720,
+                "zscore_window": 222.4828212020032,
+                "entry_z": 1.587991676779459,
+                "exit_z": 0.125762468702015,
+                "stop_z": 3.5507911161872996,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.049149797873544156,
+                "mvo_lookback": 272.01092498107585,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_9_w1",
+            "config": {
+                "coint_window": 619.3826994111581,
+                "coint_pvalue_threshold": 0.041916861729906184,
+                "hedge_window": 720,
+                "zscore_window": 220.70489169934228,
+                "entry_z": 1.764477572213789,
+                "exit_z": 0.30637718960313876,
+                "stop_z": 3.182848366444982,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.034383551279624315,
+                "mvo_lookback": 288.19373100686744,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": 0.1475967933399654,
+                    "total_pnl_net": 66.58806427282843,
+                    "total_pnl_gross": 251.07758371794796,
+                    "turnover": 0.058883345197011536
+                },
+                {
+                    "bar_start": 3000,
+                    "bar_end": 5000,
+                    "sharpe_net": 0.20947886062882637,
+                    "total_pnl_net": 55.65287662004545,
+                    "total_pnl_gross": 85.0586145138838,
+                    "turnover": 0.3580680654914241
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 0.25556052317309924
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 3.388624613823764
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 5000,
+                    "val_end": 6000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_9_w2",
+            "config": {
+                "coint_window": 619.3826994111581,
+                "coint_pvalue_threshold": 0.041916861729906184,
+                "hedge_window": 720,
+                "zscore_window": 220.70489169934228,
+                "entry_z": 1.764477572213789,
+                "exit_z": 0.30637718960313876,
+                "stop_z": 3.182848366444982,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.034383551279624315,
+                "mvo_lookback": 288.19373100686744,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": 0.1807534584053978,
+                    "total_pnl_net": 66.58806427282843,
+                    "total_pnl_gross": 251.07758371794796,
+                    "turnover": 0.058883345197011536
+                },
+                {
+                    "bar_start": 2000,
+                    "bar_end": 4000,
+                    "sharpe_net": 0.23419877642662235,
+                    "total_pnl_net": 55.65287662004545,
+                    "total_pnl_gross": 85.0586145138838,
+                    "turnover": 0.3580680654914241
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 4000,
+                    "val_end": 5000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_9_w3",
+            "config": {
+                "coint_window": 619.3826994111581,
+                "coint_pvalue_threshold": 0.041916861729906184,
+                "hedge_window": 720,
+                "zscore_window": 220.70489169934228,
+                "entry_z": 1.764477572213789,
+                "exit_z": 0.30637718960313876,
+                "stop_z": 3.182848366444982,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.034383551279624315,
+                "mvo_lookback": 288.19373100686744,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": 0.1475967933399654,
+                    "total_pnl_net": 66.58806427282843,
+                    "total_pnl_gross": 251.07758371794796,
+                    "turnover": 0.058883345197011536
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": 0.25556052317309924
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 3.388624613823764
+                }
+            ]
+        },
+        {
+            "id": "candidate_10_w1",
+            "config": {
+                "coint_window": 928.8470504844825,
+                "coint_pvalue_threshold": 0.0348776136988982,
+                "hedge_window": 720,
+                "zscore_window": 202.6555377797212,
+                "entry_z": 2.27277409383112,
+                "exit_z": 0.2598504043619436,
+                "stop_z": 2.7500425001163373,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.012515124398110733,
+                "mvo_lookback": 77.54679066863991,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_10_w2",
+            "config": {
+                "coint_window": 928.8470504844825,
+                "coint_pvalue_threshold": 0.0348776136988982,
+                "hedge_window": 720,
+                "zscore_window": 202.6555377797212,
+                "entry_z": 2.27277409383112,
+                "exit_z": 0.2598504043619436,
+                "stop_z": 2.7500425001163373,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.012515124398110733,
+                "mvo_lookback": 77.54679066863991,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_10_w3",
+            "config": {
+                "coint_window": 928.8470504844825,
+                "coint_pvalue_threshold": 0.0348776136988982,
+                "hedge_window": 720,
+                "zscore_window": 202.6555377797212,
+                "entry_z": 2.27277409383112,
+                "exit_z": 0.2598504043619436,
+                "stop_z": 2.7500425001163373,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.012515124398110733,
+                "mvo_lookback": 77.54679066863991,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_11_w1",
+            "config": {
+                "coint_window": 497.0916812643315,
+                "coint_pvalue_threshold": 0.031663419378400164,
+                "hedge_window": 720,
+                "zscore_window": 212.06884964614733,
+                "entry_z": 1.3187235225541343,
+                "exit_z": 0.7660577360351709,
+                "stop_z": 3.8638772802597927,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.041542472645084524,
+                "mvo_lookback": 193.73394284930683,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -0.38295944786357883,
+                    "total_pnl_net": -21.186573896029152,
+                    "total_pnl_gross": 65.27886710792143,
+                    "turnover": 0.20418583740907192
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -1.4657987348294428,
+                    "total_pnl_net": -975.0760965835113,
+                    "total_pnl_gross": -600.1911607341056,
+                    "turnover": 0.11069204798818041
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": -2.5096244520114652
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": -4.635382415643355
+                }
+            ]
+        },
+        {
+            "id": "candidate_11_w2",
+            "config": {
+                "coint_window": 497.0916812643315,
+                "coint_pvalue_threshold": 0.031663419378400164,
+                "hedge_window": 720,
+                "zscore_window": 212.06884964614733,
+                "entry_z": 1.3187235225541343,
+                "exit_z": 0.7660577360351709,
+                "stop_z": 3.8638772802597927,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.041542472645084524,
+                "mvo_lookback": 193.73394284930683,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": -1.3244211244223194,
+                    "total_pnl_net": -743.6444917360083,
+                    "total_pnl_gross": -366.4529683345837,
+                    "turnover": 0.06829383348198059
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": -0.38295944786357883
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": -3.0723328065600954
+                }
+            ]
+        },
+        {
+            "id": "candidate_11_w3",
+            "config": {
+                "coint_window": 497.0916812643315,
+                "coint_pvalue_threshold": 0.031663419378400164,
+                "hedge_window": 720,
+                "zscore_window": 212.06884964614733,
+                "entry_z": 1.3187235225541343,
+                "exit_z": 0.7660577360351709,
+                "stop_z": 3.8638772802597927,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.041542472645084524,
+                "mvo_lookback": 193.73394284930683,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": -0.38295944786357883,
+                    "total_pnl_net": -21.186573896029152,
+                    "total_pnl_gross": 65.27886710792143,
+                    "turnover": 0.20418583740907192
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": -2.5096244520114652
+                }
+            ]
+        },
+        {
+            "id": "candidate_12_w1",
+            "config": {
+                "coint_window": 640.752754417989,
+                "coint_pvalue_threshold": 0.07507255893484459,
+                "hedge_window": 720,
+                "zscore_window": 226.09121088908813,
+                "entry_z": 1.6766734557230198,
+                "exit_z": 0.6362353871193966,
+                "stop_z": 3.117296242876742,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.031980637873784835,
+                "mvo_lookback": 252.18429500940493,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -3.4021954583338037,
+                    "total_pnl_net": -2206.9621215209168,
+                    "total_pnl_gross": -1990.3165064470488,
+                    "turnover": 0.08302325474976308
+                },
+                {
+                    "bar_start": 3000,
+                    "bar_end": 5000,
+                    "sharpe_net": -2.4969505986760923,
+                    "total_pnl_net": 106.77918293971494,
+                    "total_pnl_gross": 169.04784311898072,
+                    "turnover": 91.64357716602387
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": -5.898608844913712
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 3.1378415922738134
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 5000,
+                    "val_end": 6000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_12_w2",
+            "config": {
+                "coint_window": 640.752754417989,
+                "coint_pvalue_threshold": 0.07507255893484459,
+                "hedge_window": 720,
+                "zscore_window": 226.09121088908813,
+                "entry_z": 1.6766734557230198,
+                "exit_z": 0.6362353871193966,
+                "stop_z": 3.117296242876742,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.031980637873784835,
+                "mvo_lookback": 252.18429500940493,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 2000,
+                    "sharpe_net": -4.167849338156284,
+                    "total_pnl_net": -2206.9609541495183,
+                    "total_pnl_gross": -1990.316012964421,
+                    "turnover": 0.02958789563641073
+                },
+                {
+                    "bar_start": 2000,
+                    "bar_end": 4000,
+                    "sharpe_net": -2.791854272668396,
+                    "total_pnl_net": 106.77801556831632,
+                    "total_pnl_gross": 169.04734963635278,
+                    "turnover": 65.05641869327756
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 2000,
+                    "val_end": 3000,
+                    "val_sharpe": -1.4030149444682394
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 4000,
+                    "val_end": 5000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_12_w3",
+            "config": {
+                "coint_window": 640.752754417989,
+                "coint_pvalue_threshold": 0.07507255893484459,
+                "hedge_window": 720,
+                "zscore_window": 226.09121088908813,
+                "entry_z": 1.6766734557230198,
+                "exit_z": 0.6362353871193966,
+                "stop_z": 3.117296242876742,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.031980637873784835,
+                "mvo_lookback": 252.18429500940493,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                },
+                {
+                    "bar_start": 1000,
+                    "bar_end": 3000,
+                    "sharpe_net": -3.4021954583338037,
+                    "total_pnl_net": -2206.9621215209168,
+                    "total_pnl_gross": -1990.3165064470488,
+                    "turnover": 0.08302325474976308
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                },
+                {
+                    "stage": 2,
+                    "stage_end": 4000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": -5.898608844913712
+                },
+                {
+                    "stage": 3,
+                    "stage_end": 6000,
+                    "val_start": 3000,
+                    "val_end": 4000,
+                    "val_sharpe": 3.1378415922738134
+                }
+            ]
+        },
+        {
+            "id": "candidate_13_w1",
+            "config": {
+                "coint_window": 1394.8479800836421,
+                "coint_pvalue_threshold": 0.022372544035408462,
+                "hedge_window": 720,
+                "zscore_window": 221.02506667865126,
+                "entry_z": 2.2396326497701318,
+                "exit_z": 0.7523137141735019,
+                "stop_z": 2.544078518141463,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.04821968022521465,
+                "mvo_lookback": 225.18545923313098,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_13_w2",
+            "config": {
+                "coint_window": 1394.8479800836421,
+                "coint_pvalue_threshold": 0.022372544035408462,
+                "hedge_window": 720,
+                "zscore_window": 221.02506667865126,
+                "entry_z": 2.2396326497701318,
+                "exit_z": 0.7523137141735019,
+                "stop_z": 2.544078518141463,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.04821968022521465,
+                "mvo_lookback": 225.18545923313098,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_13_w3",
+            "config": {
+                "coint_window": 1394.8479800836421,
+                "coint_pvalue_threshold": 0.022372544035408462,
+                "hedge_window": 720,
+                "zscore_window": 221.02506667865126,
+                "entry_z": 2.2396326497701318,
+                "exit_z": 0.7523137141735019,
+                "stop_z": 2.544078518141463,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.04821968022521465,
+                "mvo_lookback": 225.18545923313098,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_14_w1",
+            "config": {
+                "coint_window": 703.7106258949908,
+                "coint_pvalue_threshold": 0.09289700295372118,
+                "hedge_window": 720,
+                "zscore_window": 183.9489074158773,
+                "entry_z": 1.610557390107037,
+                "exit_z": 0.6886435427765691,
+                "stop_z": 3.779033089975628,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.032306529973395205,
+                "mvo_lookback": 98.97801753147797,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 1,
+            "bar_metrics": [
+                {
+                    "bar_start": 0,
+                    "bar_end": 1000,
+                    "sharpe_net": NaN,
+                    "total_pnl_net": 0.0,
+                    "total_pnl_gross": 0.0,
+                    "turnover": NaN
+                }
+            ],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 1000,
+                    "val_end": 2000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_14_w2",
+            "config": {
+                "coint_window": 703.7106258949908,
+                "coint_pvalue_threshold": 0.09289700295372118,
+                "hedge_window": 720,
+                "zscore_window": 183.9489074158773,
+                "entry_z": 1.610557390107037,
+                "exit_z": 0.6886435427765691,
+                "stop_z": 3.779033089975628,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.032306529973395205,
+                "mvo_lookback": 98.97801753147797,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 2,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": 0,
+                    "val_end": 1000,
+                    "val_sharpe": NaN
+                }
+            ]
+        },
+        {
+            "id": "candidate_14_w3",
+            "config": {
+                "coint_window": 703.7106258949908,
+                "coint_pvalue_threshold": 0.09289700295372118,
+                "hedge_window": 720,
+                "zscore_window": 183.9489074158773,
+                "entry_z": 1.610557390107037,
+                "exit_z": 0.6886435427765691,
+                "stop_z": 3.779033089975628,
+                "solver": "cvxopt_qp",
+                "gross_cap": 100000.0,
+                "vol_target": 0.032306529973395205,
+                "mvo_lookback": 98.97801753147797,
+                "regularisation": 0.0001,
+                "risk_aversion": 1.0,
+                "mu_lookback": 168,
+                "warmup_bars": 1000,
+                "initial_capital": 10000.0,
+                "slippage": 0.0008465977142735755
+            },
+            "window_id": 3,
+            "bar_metrics": [],
+            "stage_val_sharpes": [
+                {
+                    "stage": 1,
+                    "stage_end": 2000,
+                    "val_start": -1000,
+                    "val_end": 0,
+                    "val_sharpe": NaN
+                }
+            ]
+        }
+    ]
+}

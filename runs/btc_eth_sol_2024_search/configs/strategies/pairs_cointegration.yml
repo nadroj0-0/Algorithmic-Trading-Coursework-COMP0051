@@ -1,0 +1,70 @@
+strategy_name: pairs_cointegration
+params:
+  coint_window: 619.3826994111581
+  coint_pvalue_threshold: 0.041916861729906184
+  hedge_window: 720
+  zscore_window: 220.70489169934228
+  entry_z: 1.764477572213789
+  exit_z: 0.30637718960313876
+  stop_z: 3.182848366444982
+  solver: cvxopt_qp
+  gross_cap: 100000.0
+  vol_target: 0.034383551279624315
+  mvo_lookback: 288.19373100686744
+  regularisation: 0.0001
+  risk_aversion: 1.0
+  mu_lookback: 168
+  warmup_bars: 1000
+  initial_capital: 10000.0
+  slippage: 0.0008465977142735755
+best_config:
+  coint_window: 619.3826994111581
+  coint_pvalue_threshold: 0.041916861729906184
+  hedge_window: 720
+  zscore_window: 220.70489169934228
+  entry_z: 1.764477572213789
+  exit_z: 0.30637718960313876
+  stop_z: 3.182848366444982
+  solver: cvxopt_qp
+  gross_cap: 100000.0
+  vol_target: 0.034383551279624315
+  mvo_lookback: 288.19373100686744
+  regularisation: 0.0001
+  risk_aversion: 1.0
+  mu_lookback: 168
+  warmup_bars: 1000
+  initial_capital: 10000.0
+  slippage: 0.0008465977142735755
+search_space:
+  coint_window:
+  - 480
+  - 1440
+  - uniform
+  coint_pvalue_threshold:
+  - 0.01
+  - 0.1
+  - uniform
+  zscore_window:
+  - 72
+  - 336
+  - uniform
+  entry_z:
+  - 1.0
+  - 2.5
+  - uniform
+  exit_z:
+  - 0.1
+  - 0.8
+  - uniform
+  stop_z:
+  - 2.5
+  - 4.0
+  - uniform
+  mvo_lookback:
+  - 72
+  - 336
+  - uniform
+  vol_target:
+  - 0.01
+  - 0.05
+  - uniform

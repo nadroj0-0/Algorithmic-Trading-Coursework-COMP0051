@@ -152,9 +152,44 @@ def evaluate_strategy(
     ret_gross = results.get("ret_gross")
     ret_net   = results.get("ret_net")
 
-    if ret_net is None or len(ret_net) == 0:
-        print(f"  [SKIP] {strategy_name} — empty returns in results.")
-        return None
+    # ret_gross/ret_net are not stored in session.results — they are derived
+    # quantities computed inside PnLEngine.run() but not accumulated by
+    # strategy_session._accumulate(). Recompute them here from pnl_gross/pnl_net
+    # divided by the previous bar's portfolio value (same formula as portfolio.py).
+    if ret_net is None or (hasattr(ret_net, '__len__') and len(ret_net) == 0):
+        pnl_net   = results.get("pnl_net")
+        value_net = results.get("value_net")
+        if pnl_net is not None and len(pnl_net) > 0:
+            prev_value = value_net.shift(1).fillna(initial_capital) if value_net is not None else initial_capital
+            prev_value = prev_value.replace(0, initial_capital)
+            ret_net = pnl_net / prev_value
+        else:
+            print(f"  [SKIP] {strategy_name} — no pnl_net in results.")
+            return None
+
+    if ret_gross is None or (hasattr(ret_gross, '__len__') and len(ret_gross) == 0):
+        pnl_gross   = results.get("pnl_gross")
+        value_gross = results.get("value_gross")
+        if pnl_gross is not None and len(pnl_gross) > 0:
+            prev_value = value_gross.shift(1).fillna(initial_capital) if value_gross is not None else initial_capital
+            prev_value = prev_value.replace(0, initial_capital)
+            ret_gross = pnl_gross / prev_value
+        else:
+            ret_gross = ret_net  # fallback
+
+    # --- Derive missing scalars from series data ---
+    # total_pnl_gross/net and pct_return_net are computed inside PnLEngine.run()
+    # but are not stored in session.results. Derive them here from stored series.
+    pnl_net_series   = results.get("pnl_net")
+    pnl_gross_series = results.get("pnl_gross")
+    if pnl_net_series is not None and len(pnl_net_series) > 0:
+        total_pnl_net   = float(pnl_net_series.sum())
+        pct_return_net  = total_pnl_net / initial_capital
+        results["total_pnl_net"]  = total_pnl_net
+        results["pct_return_net"] = pct_return_net
+    if pnl_gross_series is not None and len(pnl_gross_series) > 0:
+        total_pnl_gross = float(pnl_gross_series.sum())
+        results["total_pnl_gross"] = total_pnl_gross
 
     # --- Compute performance metrics ---
     positions_df = results.get("positions")
@@ -181,9 +216,9 @@ def evaluate_strategy(
     for col in metrics_net.columns:
         print(f"    {col}: {metrics_net.iloc[0][col]}")
 
-    print(f"\n  Total PnL (gross): ${results.get('total_pnl_gross', 'N/A'):,.2f}")
-    print(f"  Total PnL (net)  : ${results.get('total_pnl_net',   'N/A'):,.2f}")
-    print(f"  Return on capital (net): {results.get('pct_return_net', 0) * 100:.2f}%")
+    pnl_g = results.get('total_pnl_gross'); print(f"\n  Total PnL (gross): ${pnl_g:,.2f}" if isinstance(pnl_g, (int,float)) else "\n  Total PnL (gross): N/A")
+    pnl_n = results.get('total_pnl_net'); print(f"  Total PnL (net)  : ${pnl_n:,.2f}" if isinstance(pnl_n, (int,float)) else "  Total PnL (net)  : N/A")
+    pct_r = results.get('pct_return_net', 0); pct_r = pct_r if isinstance(pct_r,(int,float)) else 0; print(f"  Return on capital (net): {pct_r * 100:.2f}%")
     print(f"  Turnover (avg/bar): {results.get('turnover', 'N/A')}")
 
     return {
@@ -438,7 +473,7 @@ def main():
             f"{m.get('Sortino', float('nan')):>8.3f} "
             f"{m.get('Calmar', float('nan')):>8.3f} "
             f"{m.get('Max Drawdown (%)', float('nan')):>8.2f} "
-            f"${item.get('total_pnl_net', 0):>9,.2f}"
+            f"${float(item.get('total_pnl_net') or 0):>9,.2f}"
         )
     print("=" * 70)
     print(f"\n  Plots saved to: {plots_dir}")

@@ -1,0 +1,72 @@
+{
+    "description": "Buy-and-hold benchmark for BTC, ETH, SOL",
+    "initial_capital": 10000.0,
+    "rf_annual": 0.053,
+    "strategies": {
+        "BTC/USDT": {
+            "label": "BTC Buy-and-Hold",
+            "total_pnl": 10919.1,
+            "pct_return": 109.19,
+            "n_bars": 8783,
+            "period_start": "2024-01-01",
+            "period_end": "2024-12-31"
+        },
+        "ETH/USDT": {
+            "label": "ETH Buy-and-Hold",
+            "total_pnl": 3806.75,
+            "pct_return": 38.07,
+            "n_bars": 8783,
+            "period_start": "2024-01-01",
+            "period_end": "2024-12-31"
+        },
+        "SOL/USDT": {
+            "label": "SOL Buy-and-Hold",
+            "total_pnl": 7630.19,
+            "pct_return": 76.3,
+            "n_bars": 8783,
+            "period_start": "2024-01-01",
+            "period_end": "2024-12-31"
+        }
+    },
+    "metrics": {
+        "BTC Buy-and-Hold": {
+            "Total Return (%)": 109.19,
+            "Total PnL (USDT)": 10919.1,
+            "Ann. Return (%)": 108.79,
+            "Ann. Volatility (%)": 51.36,
+            "Sharpe": 1.69,
+            "Sortino": 1.692,
+            "Calmar": 3.23,
+            "Max Drawdown (%)": -33.68,
+            "Avg Drawdown (%)": -11.42,
+            "Win Rate (%)": 51.04,
+            "Profit Factor": 1.055
+        },
+        "ETH Buy-and-Hold": {
+            "Total Return (%)": 38.07,
+            "Total PnL (USDT)": 3806.75,
+            "Ann. Return (%)": 37.95,
+            "Ann. Volatility (%)": 61.98,
+            "Sharpe": 0.829,
+            "Sortino": 0.828,
+            "Calmar": 0.791,
+            "Max Drawdown (%)": -47.99,
+            "Avg Drawdown (%)": -21.53,
+            "Win Rate (%)": 50.72,
+            "Profit Factor": 1.027
+        },
+        "SOL Buy-and-Hold": {
+            "Total Return (%)": 76.3,
+            "Total PnL (USDT)": 7630.19,
+            "Ann. Return (%)": 76.04,
+            "Ann. Volatility (%)": 89.85,
+            "Sharpe": 1.078,
+            "Sortino": 1.096,
+            "Calmar": 1.599,
+            "Max Drawdown (%)": -47.57,
+            "Avg Drawdown (%)": -21.99,
+            "Win Rate (%)": 50.52,
+            "Profit Factor": 1.033
+        }
+    }
+}
